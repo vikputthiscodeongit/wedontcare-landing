@@ -32,6 +32,7 @@
                             $services = $social["service"];
 
                             foreach ($services as $service) {
+                                $classes = "social";
                                 $link = $service["url"];
                                 $name = false;
                                 $logo = false;
@@ -58,12 +59,15 @@
                                 $files     = glob($base_dir . $dir . $file_name);
                                 // var_dump($files);
 
-                                if (count($files) === 1)
+                                if (count($files) > 0) {
                                     $logo = get_theme_file_uri($dir . basename($files[0]));
+                                } else {
+                                    $classes .= " has-fallback-text";
+                                }
 
                                 // var_dump($logo);
                                 ?>
-                                <li class="social">
+                                <li class="<?php echo $classes; ?>">
                                     <?php
                                         if ($logo) {
                                             ?>

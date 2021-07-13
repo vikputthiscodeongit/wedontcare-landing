@@ -148,6 +148,14 @@ main {
         margin-right: auto;
     }
 
+    > .section-title {
+        grid-row: 1;
+
+        &.is-visible {
+            grid-row: 2;
+        }
+    }
+
     > .media {
         grid-row: 2;
     }
