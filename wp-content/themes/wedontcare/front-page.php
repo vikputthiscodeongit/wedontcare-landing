@@ -21,46 +21,43 @@
         <?php
             $content = get_field("landing_content");
 
-            $has_video = false;
+            $video = false;
 
             if (!empty($content)) {
-                $video = $content["video"];
-
-                $video_sources = $video["source"];
-
-                if (count($video_sources) > 0) {
-                    $has_video = true;
+                if (!empty($content["video"]["source"])) {
+                    $video = $content["video"];
+                    // var_dump($video);
 
                     $video_poster = $video["poster"];
 
                     if (!empty($video_poster)) {
-                        $video_poster = $video_poster["url"];
+                        $video_poster = "poster='" . $video_poster["url"] . "'";
                     }
                 }
             }
         ?>
 
         <?php
-            $title_parent_classes = "section-title";
-            $title_classes = "sr-only";
+            $parent_class = "section-title";
+            $class = "sr-only";
 
-            if (!$has_video) {
-                $title_parent_classes .= " section-title--margin is-visible has-fallback-text";
-                $title_classes = false;
+            if (!$video) {
+                $parent_class .= " section-title--margin is-visible has-fallback-text";
+                $class = false;
             }
         ?>
-        <div class="<?php echo $title_parent_classes; ?>">
-            <h1 <?php if ($title_classes) { echo "class='" . $title_classes . "'"; } ?>>
+        <div class="<?php echo $parent_class; ?>">
+            <h1 class="<?php if ($class) { echo $class; } ?>">
                 We Don't Care
             </h1>
         </div>
 
         <?php
-            if ($has_video) {
+            if ($video) {
                 ?>
                 <div class="media" style="--aspect-ratio: 1 / 1" aria-hidden="true">
                     <video
-                        <?php if (!empty($video_poster)) { echo "poster='" . $video_poster . "'"; } ?>
+                        <?php if (!empty($video_poster)) { echo $video_poster; } ?>
                         autoplay
                         controls
                         disablePictureInPicture
@@ -70,7 +67,7 @@
                         playsinline
                     >
                         <?php
-                            foreach ($video_sources as $source) {
+                            foreach ($video["source"] as $source) {
                                 $file = $source["file"];
                                 // var_dump($file);
 
