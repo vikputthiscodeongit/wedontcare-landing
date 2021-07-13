@@ -4,7 +4,7 @@
     get_header();
 ?>
 
-<div class="container container--align-center">
+<section class="container container--align-center">
     <div class="row row--space-center row--lg-align-center row--lg-direction-reverse">
         <?php
             $query_args = array(
@@ -56,6 +56,6 @@
             }
         ?>
     </div>
-</div>
+</section>
 
 <?php get_footer(); ?>
