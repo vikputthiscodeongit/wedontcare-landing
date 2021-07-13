@@ -1,5 +1,5 @@
 <?php
-    // Template name: Music overview
+    // Template name: Music
 
     get_header();
 ?>

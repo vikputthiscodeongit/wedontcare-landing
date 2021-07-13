@@ -8,7 +8,7 @@ v "Small" image size vergroten naar 480x480
 
 v Image sizes nalopen
 
-v tpl-music-overview.php container buiten de loop halen
+v tpl-music.php container buiten de loop halen
 
 v tpl-social.php afmaken
 

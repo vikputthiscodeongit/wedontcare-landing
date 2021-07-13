@@ -162,7 +162,7 @@
     function add_body_classes($classes) {
         if (
             is_front_page() ||
-            is_page_template("tpl-music-overview.php") ||
+            is_page_template("tpl-music.php") ||
             is_page_template("tpl-shows.php") ||
             is_page_template("tpl-social.php")
         ) {
@@ -174,14 +174,14 @@
         }
 
         if (
-            is_page_template("tpl-music-overview.php") ||
+            is_page_template("tpl-music.php") ||
             is_page_template("tpl-shows.php") ||
             is_page_template("tpl-social.php")
         ) {
             $classes[] = "cover-fullvh--dynamic";
         }
 
-        if (is_page_template("tpl-music-overview.php")) {
+        if (is_page_template("tpl-music.php")) {
             $classes[] = "bg-light";
         }
 
