@@ -22,18 +22,19 @@
                     $attrs = get_field("music_attrs");
                     // var_dump($attrs);
 
-                    $classes = "box box--lg-4";
+                    $class = "box box--lg-4";
 
                     $id = $attrs["id"];
 
-                    if (!empty($id))
-                        $classes .= " box--" . $id;
+                    if (!empty($id)) {
+                        $class .= " box--" . $id;
+                    }
 
                     $artwork = get_the_post_thumbnail($post->ID, "small");
                     $link = get_permalink();
-                    // var_dump($classes, $id, $artwork, $link);
+                    // var_dump($class, $id, $artwork, $link);
                     ?>
-                    <div class="<?php echo $classes; ?>">
+                    <div class="<?php echo $class; ?>">
                         <div class="media media--filter media--filter-grayscale" style="--aspect-ratio: 1 / 1">
                             <?php echo $artwork; ?>
 

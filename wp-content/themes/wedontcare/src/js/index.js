@@ -49,7 +49,6 @@ import stylesheet from "../scss/style.scss";
     const html = document.documentElement,
           body = document.body;
 
-
     // Event handlers
     document.addEventListener("DOMContentLoaded", function() {
         html.classList.replace("no-js", "js");
@@ -157,9 +156,8 @@ import stylesheet from "../scss/style.scss";
         }
 
         video.els.forEach((videoEl) => {
-            if (!videoEl.hasAttribute("autoplay")) {
+            if (!videoEl.hasAttribute("autoplay"))
                 return;
-            }
 
             video.removeControls(videoEl);
         });
@@ -200,7 +198,7 @@ import stylesheet from "../scss/style.scss";
                     // Firefox for example retains <input> values when a page is refreshed.
                     input.value === ""
                 ) {
-                    wpcf7.setInvalidState(input);
+                    wpcf7.setStateInvalid(input);
                 }
 
                 input.addEventListener("input", function() {
@@ -290,14 +288,14 @@ import stylesheet from "../scss/style.scss";
             (type === "email" && isValidEmail(input.value)) ||
             (type !== "email" && input.value !== "")
         ) {
-            wpcf7.setValidState(input);
+            wpcf7.setStateValid(input);
         } else {
-            wpcf7.setInvalidState(input);
+            wpcf7.setStateInvalid(input);
         }
     };
 
-    wpcf7.setValidState = function(input) {
-        console.log("In wpcf7.setValidState().");
+    wpcf7.setStateValid = function(input) {
+        console.log("In wpcf7.setStateValid().");
 
         input.setAttribute("aria-invalid", false);
         input.parentElement.classList.remove("is-invalid");
@@ -305,8 +303,8 @@ import stylesheet from "../scss/style.scss";
         input.parentElement.classList.add("is-valid");
     };
 
-    wpcf7.setInvalidState = function(input) {
-        console.log("In wpcf7.setInvalidState().");
+    wpcf7.setStateInvalid = function(input) {
+        console.log("In wpcf7.setStateInvalid().");
 
         input.parentElement.classList.remove("is-valid");
 
