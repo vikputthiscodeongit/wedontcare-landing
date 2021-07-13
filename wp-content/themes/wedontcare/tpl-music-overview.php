@@ -6,6 +6,15 @@
 
 <section class="container container--align-center">
     <div class="row row--space-center row--lg-align-center row--lg-direction-reverse">
+
+
+
+        <!--
+            Pagina titel hier
+         -->
+
+
+
         <?php
             $query_args = array(
                 "post_type" => "music",
@@ -31,6 +40,17 @@
                     }
 
                     $artwork = get_the_post_thumbnail($post->ID, "small");
+
+                    if (empty($artwork)) {
+
+
+
+                        // Code
+
+
+
+                    }
+
                     $link = get_permalink();
                     // var_dump($class, $id, $artwork, $link);
                     ?>
@@ -48,6 +68,13 @@
 
                 wp_reset_postdata();
             } else {
+
+
+
+                // Degelijke error maken
+
+
+
                 ?>
                 <div class="text text--center">
                     <p>Error message.</p>
