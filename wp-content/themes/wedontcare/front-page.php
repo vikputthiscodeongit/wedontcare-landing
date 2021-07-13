@@ -17,32 +17,25 @@
         </nav>
     </div>
 
-    <section class="row row--mid fp-content">
-        <?php
-            $content = get_field("landing_content");
+    <?php
+        $content = get_field("landing_content");
 
-            $video = false;
+        $video = false;
 
-            if (!empty($content)) {
-                if (!empty($content["video"]["source"])) {
-                    $video = $content["video"];
-                    // var_dump($video);
-
-                    $video_poster = $video["poster"];
-
-                    if (!empty($video_poster)) {
-                        $video_poster = "poster='" . $video_poster["url"] . "'";
-                    }
-                }
+        if (!empty($content)) {
+            if (!empty($content["video"]["source"])) {
+                $video = $content["video"];
+                // var_dump($video);
             }
-        ?>
-
+        }
+    ?>
+    <section class="row row--mid fp-content">
         <?php
             $parent_class = "section-title";
             $class = "sr-only";
 
             if (!$video) {
-                $parent_class .= " section-title--margin is-visible has-fallback-text";
+                $parent_class .= " section-title--margin is-visible";
                 $class = false;
             }
         ?>
@@ -56,8 +49,15 @@
             if ($video) {
                 ?>
                 <div class="media" style="--aspect-ratio: 1 / 1" aria-hidden="true">
+                    <?php
+                        $video_poster = $video["poster"];
+
+                        if (!empty($video_poster)) {
+                            $video_poster = $video_poster["url"];
+                        }
+                    ?>
                     <video
-                        <?php if (!empty($video_poster)) { echo $video_poster; } ?>
+                        poster="<?php echo $video_poster; ?>"
                         autoplay
                         controls
                         disablePictureInPicture

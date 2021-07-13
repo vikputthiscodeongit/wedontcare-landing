@@ -22,22 +22,19 @@
                         $the_query->the_post();
 
                         $entity = get_field("entity");
-                        // var_dump($entity);
 
-                        // Social
                         $social = $entity["social"];
                         // var_dump($social);
 
-                        if (!empty($social)) {
-                            $services = $social["service"];
-
-                            foreach ($services as $service) {
-                                $class = "social";
+                        if (!empty($social["service"])) {
+                            foreach ($social["service"] as $service) {
+                                // Link
                                 $link = $service["url"];
-                                $name = false;
-                                $logo = false;
+
 
                                 // Name
+                                $name = false;
+
                                 switch ($service["id"]) {
                                     case "youtube":
                                         $name = "YouTube";
@@ -52,7 +49,10 @@
 
                                 // var_dump($name);
 
+
                                 // Logo
+                                $logo = false;
+
                                 $base_dir  = trailingslashit(THEME_DIR_PATH);
                                 $dir       = "dist/images/static/social/";
                                 $file_name = $service["id"] . "-white.png";
@@ -61,18 +61,16 @@
 
                                 if (count($files) > 0) {
                                     $logo = get_theme_file_uri($dir . basename($files[0]));
-                                } else {
-                                    $class .= " has-fallback-text";
                                 }
 
                                 // var_dump($logo);
                                 ?>
-                                <li class="<?php echo $class; ?>">
+                                <li class="social">
                                     <?php
                                         if ($logo) {
                                             ?>
                                             <div class="media" style="--aspect-ratio: 1 / 1">
-                                                <img src="<?php echo $logo; ?>" alt="<?php echo $name; ?> logo">
+                                                <img src="<?php echo $logo; ?>" alt="<?php echo $name; ?>">
 
                                                 <a class="stretched-link" href="<?php echo $link; ?>" target="_blank" rel="noopener">
                                                     <span class="sr-only"><?php echo $name; ?></span>
