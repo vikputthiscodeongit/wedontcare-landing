@@ -88,8 +88,11 @@ import stylesheet from "../scss/style.scss";
     main.init = function() {
         console.log("In main.init().");
 
-        if (!body.classList.contains("cover-fullvh"))
+        if (!body.classList.contains("cover-fullvh")) {
+            console.log("<body> should NOT cover the entire viewport. Exiting function!");
+
             return;
+        }
 
         if (!cssLoaded()) {
             const timeout = 1000;
@@ -147,8 +150,11 @@ import stylesheet from "../scss/style.scss";
     video.init = function() {
         console.log("In video.init().");
 
-        if (video.els.length === 0)
+        if (video.els.length === 0) {
+            console.log("No <video>s found on this page. Exiting function!");
+
             return;
+        }
 
         video.els.forEach((videoEl) => {
             if (!videoEl.hasAttribute("autoplay")) {
@@ -174,8 +180,11 @@ import stylesheet from "../scss/style.scss";
     wpcf7.init = function() {
         console.log("In wpcf7.init().");
 
-        if (wpcf7.els.length === 0)
+        if (wpcf7.els.length === 0) {
+            console.log("No WPCF7 elements found on this page. Exiting function!");
+
             return;
+        }
 
         wpcf7.els.forEach((wpcf7El) => {
             wpcf7.changeAttributes(wpcf7El);
@@ -312,8 +321,11 @@ import stylesheet from "../scss/style.scss";
     fpContent.init = function() {
         console.log("In fpContent.init().");
 
-        if (!fpContent.mediaEl)
+        if (!fpContent.mediaEl) {
+            console.log("This is either not the front page, or it is but no <video> is present. Exiting function!");
+
             return;
+        }
 
         if (!cssLoaded()) {
             const timeout = 1000;
@@ -364,8 +376,11 @@ import stylesheet from "../scss/style.scss";
     reversedRow.init = function() {
         console.log("In reversedRow.init().");
 
-        if (reversedRow.els.length === 0)
+        if (reversedRow.els.length === 0) {
+            console.log("No .row--lg-direction-reverse found on this page. Exiting function!");
+
             return;
+        }
 
         reversedRow.els.forEach((rowEl) => {
             const boxElsWithLinks = rowEl.querySelectorAll(".box a");
