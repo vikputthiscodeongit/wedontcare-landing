@@ -6,8 +6,8 @@
 
 <div class="container container--align-center">
     <div class="row">
-        <div class="section-title text text--center">
-            <h1>Shows</h1>
+        <div class="section-title section-title--margin">
+            <h1><?php the_title(); ?></h1>
         </div>
     </div>
 

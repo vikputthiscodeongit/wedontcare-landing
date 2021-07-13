@@ -8,6 +8,8 @@
 }
 
 .section-title {
+    text-align: center;
+
     &--margin {
         margin-bottom: rem(40px);
 
@@ -25,13 +27,6 @@
     &--flashy {
         animation: color-change 2s infinite;
     }
-}
-
-.has-fallback-text {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
 }
 
 @keyframes color-change {
