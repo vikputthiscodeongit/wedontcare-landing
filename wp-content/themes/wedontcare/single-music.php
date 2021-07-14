@@ -12,25 +12,57 @@
                 // var_dump($artwork);
             ?>
             <div class="media media--underlay" style="--aspect-ratio: 1/1;">
-                <?php echo $artwork; ?>
+                <?php
+                    if (!empty($artwork)) {
+                        echo $artwork;
+                    } else {
+                        ?>
+                        <div class="text text--center">
+                            <p>Artwork not available.</p>
+                        </div>
+                        <?php
+                    }
+                ?>
             </div>
         </div>
 
         <div class="box box--lg-5">
             <div class="streaming">
                 <?php
+                    // Logo
                     $logo = $attrs["logo"];
-                    $logo = wp_get_attachment_image($logo["ID"], "extra_small", false, array("class" => "streaming__logo", "loading" => false));
-                    // var_dump($logo);
 
                     if (!empty($logo)) {
-                        ?>
-                        <div class="streaming__top">
-                            <?php echo $logo; ?>
-                        </div>
-                        <?php
+                        $logo = wp_get_attachment_image($logo["ID"], "extra_small", false, array("loading" => false));
+                    }
+
+                    // var_dump($logo);
+
+
+                    // Title
+                    $title_parent_class = "title";
+                    $title_class = "sr-only";
+
+                    if (empty($logo)) {
+                        $title_parent_class .= " text text--center";
+                        $title_class = false;
                     }
                 ?>
+                <div class="streaming__top">
+                    <?php
+                        if ($logo) {
+                            ?>
+                            <div class="streaming__logo">
+                                <?php echo $logo; ?>
+                            </div>
+                            <?php
+                        }
+                    ?>
+
+                    <div class="<?php echo $title_parent_class; ?>">
+                        <h1 class="<?php echo $title_class; ?>"><?php the_title(); ?></h1>
+                    </div>
+                </div>
 
                 <?php
                     $services = get_field("music_streaming_services");
@@ -39,7 +71,7 @@
                     if (!empty($services)) {
                         ?>
                         <div class="streaming__main">
-                            <ul class="services">
+                            <ul class="services" aria-label="Streaming services">
                                 <?php
                                     foreach ($services as $service => $url) {
                                         // URL
@@ -47,6 +79,7 @@
                                             continue;
 
                                         // var_dump($url);
+
 
                                         // Name
                                         $name = str_replace("_", " ", $service);
@@ -65,6 +98,7 @@
                                         }
 
                                         // var_dump($name);
+
 
                                         // Logo
                                         $logo = false;
@@ -100,15 +134,15 @@
                                                 <?php
                                                     if ($logo) {
                                                         ?>
-                                                        <div class="service__logo">
-                                                            <img src="<?php echo $logo; ?>" alt="<?php echo $name; ?> logo">
-                                                        </div>
+                                                        <span class="service__logo">
+                                                            <img src="<?php echo $logo; ?>" alt="<?php echo $name; ?>">
+                                                        </span>
                                                         <?php
                                                     } else {
                                                         ?>
-                                                        <div class="service__name">
+                                                        <span class="service__name">
                                                             <span><?php echo $name; ?></span>
-                                                        </div>
+                                                        </span>
                                                         <?php
                                                     }
                                                 ?>
@@ -129,11 +163,16 @@
 
 <?php
     $bg = $attrs["bg"];
-    $bg = wp_get_attachment_image($bg["ID"], "full", false, array("loading" => false));
-    // var_dump($bg);
+
+    if (!empty($bg)) {
+        $bg = wp_get_attachment_image($bg["ID"], "full", false, array("loading" => false));
+        // var_dump($bg);
+        ?>
+        <div class="background">
+            <?php echo $bg; ?>
+        </div>
+        <?php
+    }
 ?>
-<div class="background">
-    <?php echo $bg; ?>
-</div>
 
 <?php get_footer(); ?>

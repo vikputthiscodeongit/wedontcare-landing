@@ -7,9 +7,7 @@
     font-weight: $font-weight-base;
 }
 
-.section-title {
-    text-align: center;
-
+.title {
     &--margin {
         margin-bottom: rem(40px);
 
@@ -21,6 +19,9 @@
 
 .text {
     &--center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         text-align: center;
     }
 

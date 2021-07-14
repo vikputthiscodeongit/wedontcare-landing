@@ -1,7 +1,13 @@
 <?php get_header(); ?>
 
 <div class="container">
-    <div class="row row--align-center">
+    <div class="row">
+        <div class="title title--margin text text--center">
+            <h1>An error occurred</h1>
+        </div>
+    </div>
+
+    <div class="row">
         <div class="text text--center">
             <?php
                 $previous_page = false;
@@ -23,7 +29,7 @@
 
             <p>
                 <a href="<?php echo $mailto_href; ?>" target="_blank" rel="noopener">Please let me know about this error by clicking here.</a><br>
-                You don't have to compose a message yourself, just hit the send-button :).
+                You don't have to compose a message yourself - just hit the send-button.
             </p>
 
             <a href="<?php echo SITE_URL; ?>" target="_self">Return to the home page</a>

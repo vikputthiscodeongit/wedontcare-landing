@@ -6,7 +6,7 @@
 
 <div class="container container--align-center">
     <div class="row">
-        <div class="section-title section-title--margin">
+        <div class="title title--margin text text--center">
             <h1><?php the_title(); ?></h1>
         </div>
     </div>
@@ -22,7 +22,7 @@
 
             $the_query = new WP_Query($query_args);
         ?>
-        <ul class="shows">
+        <ul class="shows" aria-label="Shows">
             <?php
                 $shows_shown = false;
 
@@ -33,6 +33,7 @@
                         $attrs = get_field("show_attrs");
                         // var_dump($attrs);
 
+
                         // Date
                         $date_current = idate("U");
                         $date_show = strtotime($attrs["date"]);
@@ -41,13 +42,13 @@
                         // var_dump($date_show);
                         // var_dump($date_hidden);
 
-                        if ($date_current > $date_hidden) {
+                        if ($date_current > $date_hidden)
                             continue;
-                        }
 
                         $shows_shown = true;
 
                         $date_pretty = date("d M", $date_show);
+
 
                         // Tag
                         $tag_open = "span class='show__item'";

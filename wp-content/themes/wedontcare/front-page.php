@@ -31,18 +31,16 @@
     ?>
     <section class="row row--mid fp-content">
         <?php
-            $parent_class = "section-title";
-            $class = "sr-only";
+            $title_parent_class = "title";
+            $title_class = "sr-only";
 
             if (!$video) {
-                $parent_class .= " section-title--margin is-visible";
-                $class = false;
+                $title_parent_class .= " title--margin text text--center is-visible";
+                $title_class = false;
             }
         ?>
-        <div class="<?php echo $parent_class; ?>">
-            <h1 class="<?php if ($class) { echo $class; } ?>">
-                We Don't Care
-            </h1>
+        <div class="<?php echo $title_parent_class; ?>">
+            <h1 class="<?php echo $title_class; ?>">We Don't Care</h1>
         </div>
 
         <?php
@@ -79,7 +77,7 @@
                             }
                         ?>
 
-                        We Don't Care
+                        <span>We Don't Care</span>
                     </video>
                 </div>
                 <?php

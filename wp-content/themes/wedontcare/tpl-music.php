@@ -5,16 +5,13 @@
 ?>
 
 <section class="container container--align-center">
+    <div class="row">
+        <div class="title">
+            <h1 class="sr-only"><?php the_title(); ?></h1>
+        </div>
+    </div>
+
     <div class="row row--space-center row--lg-align-center row--lg-direction-reverse">
-
-
-
-        <!--
-            Pagina titel hier
-         -->
-
-
-
         <?php
             $query_args = array(
                 "post_type" => "music",
@@ -31,35 +28,56 @@
                     $attrs = get_field("music_attrs");
                     // var_dump($attrs);
 
-                    $class = "box box--lg-4";
+
+                    // Box
+                    $box_class = "box box--lg-4";
 
                     $id = $attrs["id"];
 
                     if (!empty($id)) {
-                        $class .= " box--" . $id;
+                        $box_class .= " box--" . $id;
                     }
 
+                    // var_dump($box_class);
+
+
+                    // Artwork
                     $artwork = get_the_post_thumbnail($post->ID, "small");
+                    // var_dump($artwork);
+
+
+                    // Link
+                    $url = get_permalink();
+                    // var_dump($url);
+
+                    $link_class = "stretched-link";
 
                     if (empty($artwork)) {
-
-
-
-                        // Code
-
-
-
+                        $link_class .= " title text text--center";
                     }
 
-                    $link = get_permalink();
-                    // var_dump($class, $id, $artwork, $link);
-                    ?>
-                    <div class="<?php echo $class; ?>">
-                        <div class="media media--filter media--filter-grayscale" style="--aspect-ratio: 1 / 1">
-                            <?php echo $artwork; ?>
+                    // var_dump($link_class);
 
-                            <a class="stretched-link" href="<?php echo $link; ?>" target="_self">
-                                <span class="sr-only"><?php the_title(); ?></span>
+
+                    // Title
+                    $title_class = "sr-only";
+
+                    if (empty($artwork)) {
+                        $title_class = false;
+                    }
+
+                    // var_dump($title_class);
+                    ?>
+                    <div class="<?php echo $box_class; ?>">
+                        <div class="media media--filter media--filter-grayscale" style="--aspect-ratio: 1 / 1">
+                            <?php
+                                if (!empty($artwork)) {
+                                    echo $artwork;
+                                }
+                            ?>
+
+                            <a class="<?php echo $link_class; ?>" href="<?php echo $url; ?>" target="_self">
+                                <h2 class="<?php echo $title_class; ?>"><?php the_title(); ?></h2>
                             </a>
                         </div>
                     </div>
@@ -68,16 +86,9 @@
 
                 wp_reset_postdata();
             } else {
-
-
-
-                // Degelijke error maken
-
-
-
                 ?>
                 <div class="text text--center">
-                    <p>Error message.</p>
+                    <p>No music found.</p>
                 </div>
                 <?php
             }

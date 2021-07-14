@@ -70,4 +70,10 @@ a {
             outline: none;
         }
     }
+
+    &.stretched-link {
+        .bg-light & {
+            color: $primary;
+        }
+    }
 }
