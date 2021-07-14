@@ -85,6 +85,7 @@
     // Remove default image sizes
     function remove_image_sizes() {
         remove_image_size("1536x1536");
+        remove_image_size("2048x2048");
     }
     add_action("init", "remove_image_sizes");
 
