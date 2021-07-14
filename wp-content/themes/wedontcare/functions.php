@@ -7,6 +7,7 @@
 
 
     // Post types
+    include "cpts/cpt-entity.php";
     include "cpts/cpt-music.php";
     include "cpts/cpt-show.php";
 
@@ -84,6 +85,7 @@
     // Remove default image sizes
     function remove_image_sizes() {
         remove_image_size("1536x1536");
+        remove_image_size("2048x2048");
     }
     add_action("init", "remove_image_sizes");
 
@@ -91,17 +93,10 @@
     //
     // Add extra image sizes
     function add_image_sizes() {
-        add_image_size("small", 360, 360);
+        add_image_size("extra_small", 360, 360);
+        add_image_size("small", 480, 480);
     }
     add_action("after_setup_theme", "add_image_sizes");
-
-
-    //
-    // Remove size attributes from (get_)the_post_thumbnail output
-    // function remove_post_thumbnail_attr ($html) {
-    //     return preg_replace("/(width|height)=(\"|\')[A-Za-z0-9]+(\"|\')\s/", "", $html);
-    // }
-    // add_filter("post_thumbnail_html", "remove_post_thumbnail_attr");
 
 
     //
@@ -164,6 +159,39 @@
 
 
     //
+    // Add classes to <body>
+    function add_body_classes($classes) {
+        if (
+            is_front_page() ||
+            is_page_template("tpl-music.php") ||
+            is_page_template("tpl-shows.php") ||
+            is_page_template("tpl-social.php")
+        ) {
+            $classes[] = "cover-fullvh";
+        }
+
+        if (is_front_page()) {
+            array_push($classes, "cover-fullvh--fixed-min", "covers-fullvh");
+        }
+
+        if (
+            is_page_template("tpl-music.php") ||
+            is_page_template("tpl-shows.php") ||
+            is_page_template("tpl-social.php")
+        ) {
+            $classes[] = "cover-fullvh--dynamic";
+        }
+
+        if (is_page_template("tpl-music.php")) {
+            $classes[] = "bg-light";
+        }
+
+        return $classes;
+    }
+    add_filter("body_class", "add_body_classes");
+
+
+    //
     // Grant users with editor role access to Flamingo submissions
     function change_flamingo_user_rights($meta_caps) {
         $meta_caps = array_merge($meta_caps, array(
@@ -182,7 +210,7 @@
     add_filter("wpcf7_load_js", "__return_false");
 
     function load_wpcf7_scripts() {
-        if (is_page_template("tpl-landing.php")) {
+        if (is_front_page()) {
             wpcf7_enqueue_styles();
             wpcf7_enqueue_scripts();
         }

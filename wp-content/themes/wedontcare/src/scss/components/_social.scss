@@ -1,0 +1,33 @@
+.social {
+    &s {
+        display: flex;
+        justify-content: center;
+    }
+
+    width: 15vw;
+    margin-right: 5vw;
+    word-break: break-all;
+
+    @media (max-width: $body-min-width - rem(0.02px)) {
+        width: rem(48px);
+        margin-right: rem(16px);
+    }
+
+    @include respond-above(md) {
+        width: 10vw;
+    }
+
+    @include respond-above(xl) {
+        width: 7.5vw;
+        margin-right: 3.25vw;
+    }
+
+    @include respond-above(xxl) {
+        width: rem(108px);
+        margin-right: rem(46px);
+    }
+
+    &:last-child {
+        margin-right: 0;
+    }
+}

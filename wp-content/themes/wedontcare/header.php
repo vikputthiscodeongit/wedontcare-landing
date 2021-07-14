@@ -5,9 +5,9 @@
 
         <!--
 
-        - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-        - Website programmed by Viktor Chin for We Don't Care -
-        - - - - - - - - - - - viktorchin.nl - - - - - - - - - -
+        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        - Website hand crafted with love by Viktor Chin for We Don't Care -
+        - - - - - - - - - - - - -  viktorchin.nl  - - - - - - - - - - - - -
 
         -->
 
@@ -18,7 +18,7 @@
 
         <!-- Site information -->
         <meta name="description" content="WE DON'T CARE">
-        <meta name="keywords" content="We Don't Care Group, Grown George">
+        <meta name="keywords" content="WDC, We Don't Care Group, Grown George">
 
         <!-- Favicon -->
         <link rel="apple-touch-icon" sizes="180x180" href="<?php echo THEME_DIR; ?>/dist/favicon/apple-touch-icon.png">

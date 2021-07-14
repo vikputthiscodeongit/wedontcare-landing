@@ -2,141 +2,177 @@
     get_header();
 
     $attrs = get_field("music_attrs");
-
-    $id = $attrs["id"];
 ?>
 
-<div class="container container--grid container--lg-x-center">
-    <?php
-        $artwork = get_the_post_thumbnail($post->ID, "full", array("loading" => false));
-        // var_dump($artwork);
-    ?>
-    <div class="media" style="--aspect-ratio: 1/1;">
-        <?php echo $artwork; ?>
-    </div>
+<div class="container">
+    <div class="row row--space-center row--align-start row--box-gap-compact">
+        <div class="box box--lg-7 ms-artwork">
+            <?php
+                $artwork = get_the_post_thumbnail($post->ID, "medium", array("loading" => false));
+                // var_dump($artwork);
+            ?>
+            <div class="media media--underlay" style="--aspect-ratio: 1/1;">
+                <?php
+                    if (!empty($artwork)) {
+                        echo $artwork;
+                    } else {
+                        ?>
+                        <div class="text text--center">
+                            <p>Artwork not available.</p>
+                        </div>
+                        <?php
+                    }
+                ?>
+            </div>
+        </div>
 
-    <div class="streaming">
-        <?php
-            $logo = $attrs["logo"];
-            $logo = wp_get_attachment_image($logo["ID"], "small", false, array("class" => "streaming__logo", "loading" => false));
-            // var_dump($logo);
+        <div class="box box--lg-5">
+            <div class="streaming">
+                <?php
+                    // Logo
+                    $logo = $attrs["logo"];
 
-            if (!empty($logo)) {
+                    if (!empty($logo)) {
+                        $logo = wp_get_attachment_image($logo["ID"], "extra_small", false, array("loading" => false));
+                    }
+
+                    // var_dump($logo);
+
+
+                    // Title
+                    $title_parent_class = "title";
+                    $title_class = "sr-only";
+
+                    if (empty($logo)) {
+                        $title_parent_class .= " text text--center";
+                        $title_class = false;
+                    }
                 ?>
                 <div class="streaming__top">
-                    <?php echo $logo; ?>
+                    <?php
+                        if ($logo) {
+                            ?>
+                            <div class="streaming__logo">
+                                <?php echo $logo; ?>
+                            </div>
+                            <?php
+                        }
+                    ?>
+
+                    <div class="<?php echo $title_parent_class; ?>">
+                        <h1 class="<?php echo $title_class; ?>"><?php the_title(); ?></h1>
+                    </div>
                 </div>
+
                 <?php
-            }
-        ?>
+                    $services = get_field("music_streaming_services");
+                    // var_dump($services);
 
-        <?php
-            $services = get_field("music_streaming_services");
-            // var_dump($services);
+                    if (!empty($services)) {
+                        ?>
+                        <div class="streaming__main">
+                            <ul class="services" aria-label="Streaming services">
+                                <?php
+                                    foreach ($services as $service => $url) {
+                                        // URL
+                                        if (empty($url))
+                                            continue;
 
-            if (!empty($services)) {
-                ?>
-                <div class="streaming__main">
-                    <ul class="services">
-                        <?php
-                            foreach ($services as $service => $url) {
-                                // URL
-                                if (empty($url))
-                                    continue;
+                                        // var_dump($url);
 
-                                // var_dump($url);
 
-                                // Name
-                                $name_pretty = str_replace("_", " ", $service);
+                                        // Name
+                                        $name = str_replace("_", " ", $service);
 
-                                switch ($name_pretty) {
-                                    case "soundcloud":
-                                        $name_pretty = "SoundCloud";
+                                        switch ($name) {
+                                            case "soundcloud":
+                                                $name = "SoundCloud";
 
-                                        break;
-                                    case "youtube":
-                                        $name_pretty = "YouTube";
-
-                                        break;
-                                    default:
-                                        $name_pretty = ucwords($name_pretty);
-                                }
-
-                                // var_dump($name_pretty);
-
-                                // Logo
-                                $logo = false;
-
-                                $base_dir = trailingslashit(THEME_DIR_PATH);
-                                $dir      = "dist/images/static/streaming/";
-                                $pattern  = str_replace("_", "-", $service);
-                                $logo_versions = glob($base_dir . $dir . $pattern . "*");
-                                // var_dump($logo_versions);
-
-                                if (count($logo_versions) > 0) {
-                                    if (count($logo_versions) === 1) {
-                                        $logo = get_theme_file_uri($dir . basename($logo_versions[0]));
-                                    } else {
-                                        $colors = ["color", "black", "white"];
-
-                                        foreach ($colors as $color) {
-                                            if ($logo)
                                                 break;
+                                            case "youtube":
+                                                $name = "YouTube";
 
-                                            foreach ($logo_versions as $logo_version) {
-                                                if ($logo)
-                                                    break;
+                                                break;
+                                            default:
+                                                $name = ucwords($name);
+                                        }
 
-                                                if (strpos($logo_version, $color))
-                                                    $logo = get_theme_file_uri($dir . basename($logo_version));
+                                        // var_dump($name);
+
+
+                                        // Logo
+                                        $logo = false;
+
+                                        $base_dir  = trailingslashit(THEME_DIR_PATH);
+                                        $dir       = "dist/images/static/streaming/";
+                                        $file_name = str_replace("_", "-", $service);
+                                        $files     = glob($base_dir . $dir . $file_name . "*");
+                                        // var_dump($files);
+
+                                        if (count($files) > 0) {
+                                            if (count($files) === 1) {
+                                                $logo = get_theme_file_uri($dir . basename($files[0]));
+                                            } else {
+                                                $colors = ["color", "black", "white"];
+
+                                                foreach ($colors as $color) {
+                                                    foreach ($files as $logo_version) {
+                                                        if ($logo)
+                                                            break;
+
+                                                        if (strpos($logo_version, $color))
+                                                            $logo = get_theme_file_uri($dir . basename($logo_version));
+                                                    }
+                                                }
                                             }
                                         }
-                                    }
-                                }
 
-                                // var_dump($logo);
-                                ?>
-                                <li class="service">
-                                    <a class="service__link" href="<?php echo $url; ?>" target="_blank" rel="noopener">
-                                        <?php
-                                            if ($logo) {
-                                                ?>
-                                                <div class="service__logo">
-                                                    <img src="<?php echo $logo; ?>" alt="">
-                                                </div>
+                                        // var_dump($logo);
+                                        ?>
+                                        <li class="service">
+                                            <a class="service__link" href="<?php echo $url; ?>" target="_blank" rel="noopener">
                                                 <?php
-                                            }
-                                        ?>
-
+                                                    if ($logo) {
+                                                        ?>
+                                                        <span class="service__logo">
+                                                            <img src="<?php echo $logo; ?>" alt="<?php echo $name; ?>">
+                                                        </span>
+                                                        <?php
+                                                    } else {
+                                                        ?>
+                                                        <span class="service__name">
+                                                            <span><?php echo $name; ?></span>
+                                                        </span>
+                                                        <?php
+                                                    }
+                                                ?>
+                                            </a>
+                                        </li>
                                         <?php
-                                            $classes = "service__name";
-
-                                            if (!$logo)
-                                                $classes += " is-visible";
-                                        ?>
-                                        <div class="<?php echo $classes; ?>">
-                                            <span><?php echo $name_pretty; ?></span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <?php
-                            }
-                        ?>
-                    </ul>
-                </div>
-                <?php
-            }
-        ?>
-    </div>
-
-    <?php
-        $bg = $attrs["bg"];
-        $bg = wp_get_attachment_image($bg["ID"], "full", false, array("loading" => false));
-        // var_dump($bg);
-    ?>
-    <div class="background">
-        <?php echo $bg; ?>
+                                    }
+                                ?>
+                            </ul>
+                        </div>
+                        <?php
+                    }
+                ?>
+            </div>
+        </div>
     </div>
 </div>
+
+<?php
+    $bg = $attrs["bg"];
+
+    if (!empty($bg)) {
+        $bg = wp_get_attachment_image($bg["ID"], "full", false, array("loading" => false));
+        // var_dump($bg);
+        ?>
+        <div class="background">
+            <?php echo $bg; ?>
+        </div>
+        <?php
+    }
+?>
 
 <?php get_footer(); ?>

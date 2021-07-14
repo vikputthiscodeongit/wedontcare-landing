@@ -4,6 +4,11 @@ import stylesheet from "../scss/style.scss";
 
 (function() {
     // Helpers
+    // Check if stylesheet has been loaded
+    function cssLoaded() {
+        return cssValue(body, "display") === "flex";
+    }
+
     // Get a CSS property value
     function cssValue(el, prop) {
         const styles = window.getComputedStyle(el),
@@ -12,12 +17,15 @@ import stylesheet from "../scss/style.scss";
         return value;
     }
 
-    // Convert CSS pixels to a number
-    function pxToNo(string) {
-        if (string.indexOf("px") === -1)
-            return;
+    // Convert CSS unit to a number
+    function cssUnitToNo(unit) {
+        let sliceEnd = -2;
 
-        return Number(string.slice(0, -2));
+        if (unit.indexOf("rem") > -1) {
+            sliceEnd = -3;
+        }
+
+        return Number(unit.slice(0, sliceEnd));
     }
 
     // Check if viewport is above given breakpoint
@@ -38,35 +46,37 @@ import stylesheet from "../scss/style.scss";
         return regEx.test(address);
     }
 
+    const html = document.documentElement,
+          body = document.body;
 
     // Event handlers
     document.addEventListener("DOMContentLoaded", function() {
-        document.documentElement.classList.replace("no-js", "js");
+        html.classList.replace("no-js", "js");
 
         inputDeviceDetector();
 
         main.init();
 
-        spinningLogo.init();
-
         video.init();
 
         wpcf7.init();
 
-        tabindex.init();
+        fpContent.init();
+
+        reversedRow.init();
     });
 
 
     // Input devices
     function inputDeviceDetector() {
-        // console.log("In inputDeviceDetector().");
+        console.log("In inputDeviceDetector().");
 
-        document.body.addEventListener("mousedown", function() {
-            document.body.classList.add("using-mouse");
+        body.addEventListener("mousedown", function() {
+            body.classList.add("using-mouse");
         });
 
-        document.body.addEventListener("keydown", function() {
-            document.body.classList.remove("using-mouse");
+        body.addEventListener("keydown", function() {
+            body.classList.remove("using-mouse");
         });
     }
 
@@ -75,119 +85,61 @@ import stylesheet from "../scss/style.scss";
     let main = {};
 
     main.init = function() {
-        main.sizeFixer();
+        console.log("In main.init().");
+
+        if (!body.classList.contains("cover-fullvh")) {
+            console.log("<body> should NOT cover the entire viewport. Exiting function!");
+
+            return;
+        }
+
+        if (!cssLoaded()) {
+            const timeout = 1000;
+
+            console.log(`CSS hasn't been loaded yet. Running function in ${timeout} ms!`);
+
+            setTimeout(main.init, timeout);
+
+            return;
+        }
+
+        main.heightFixer();
 
         window.addEventListener("resize", debounce(function() {
-            main.sizeFixer();
+            main.heightFixer();
         }, 25));
     };
 
     main.el = document.querySelector("main");
 
-    main.sizeFixer = function() {
-        // console.log("In main.sizeFixer().");
+    main.heightFixer = function() {
+        console.log("In main.heightFixer().");
 
-        const mainTargetHeight = document.documentElement.clientHeight;
-        // console.log(mainTargetHeight);
+        let vh = html.clientHeight;
 
-        main.el.style.minHeight = `${mainTargetHeight}px`;
-    };
+        const vhFixedMinTreshold = 640;
 
-
-    // Spinning logo
-    let spinningLogo = {};
-
-    spinningLogo.init = function() {
-        if (!spinningLogo.el)
-            return;
-
-        spinningLogo.sizeFixer();
-
-        window.addEventListener("resize", debounce(function() {
-            spinningLogo.sizeFixer();
-        }, 25));
-    };
-
-    spinningLogo.el = document.querySelector(".spinning-logo");
-
-    spinningLogo.sizeFixer = function() {
-        // console.log("In spinningLogo.sizeFixer().");
-
-        const videoEl = spinningLogo.el.querySelector("video");
-
-        if (!videoEl)
-            return;
-
-        const parentEl = spinningLogo.el.parentNode;
-
-        if (!parentEl || (cssValue(parentEl, "display") !== "grid"))
-            return;
-
-        const containerEl = parentEl.closest(".container");
-
-        if (!containerEl)
-            return;
-
-        const mainWidth       = pxToNo(cssValue(main.el, "width")),
-              mainPaddingLeft = pxToNo(cssValue(main.el, "padding-left"));
-        // console.log(mainWidth);
-        // console.log(mainPaddingLeft);
-
-        const contentRowHeight = pxToNo(cssValue(containerEl, "grid-template-rows").split(" ")[1]);
-        // console.log(contentRowHeight);
-
-        const contentRowTopHeight = pxToNo(cssValue(parentEl, "grid-template-rows").split(" ")[0]),
-              contentRowGap       = pxToNo(cssValue(parentEl, "grid-row-gap"));
-        // console.log(contentRowTopHeight);
-        // console.log(contentRowGap);
-
-        const contentMaxWidth  = mainWidth - (mainPaddingLeft * 2),
-              contentMaxHeight = contentRowHeight - (contentRowTopHeight * 2) - (contentRowGap * 2);
-        console.log(`contentMaxWidth: ${contentMaxWidth}`);
-        console.log(`contentMaxHeight: ${contentMaxHeight}`);
-
-
-        // Ugh
-        const vhVisibleBars   = document.documentElement.clientHeight,
-              vhInvisibleBars = document.body.clientHeight;
-        console.log(`Viewport height with visible bars: ${vhVisibleBars}`);
-        console.log(`Viewport height without visible bars: ${vhInvisibleBars}`);
-
-        const correctionFactor = vhInvisibleBars - vhVisibleBars;
-
-        if (correctionFactor !== 0) {
-            console.log("Correction factor is not zero!");
-
-            const targetContentRowHeight = contentRowHeight - correctionFactor;
-
-            if (targetContentRowHeight <= 320) {
-                if (containerEl.style.gridTemplateRows !== "") {
-                    containerEl.style.gridTemplateRows = "";
-                }
-            } else {
-                console.log(`.content row height should be corrected by ${correctionFactor} pixels.`);
-
-                const targetContentRowVal = `minmax(20rem, ${targetContentRowHeight}px)`,
-                      targetOuterRowsVal  = `${contentRowTopHeight}px`;
-
-                const targetGridTemplateRows = `${targetOuterRowsVal} ${targetContentRowVal} ${targetOuterRowsVal}`;
-
-                containerEl.style.gridTemplateRows = targetGridTemplateRows;
+        if (body.classList.contains("cover-fullvh--fixed-min") && vh < vhFixedMinTreshold) {
+            if (!aboveBreakpoint("md") && vh < 568) {
+                vh = 568;
+            } else if (aboveBreakpoint("md") && vh < vhFixedMinTreshold) {
+                vh = vhFixedMinTreshold;
             }
-        } else {
-            if (containerEl.style.gridTemplateRows !== "") {
-                containerEl.style.gridTemplateRows = "";
+        } else if (body.classList.contains("cover-fullvh--dynamic")) {
+            body.classList.remove("covers-fullvh");
+
+            const bh = body.clientHeight;
+
+            if (vh > bh) {
+                body.classList.add("covers-fullvh");
             }
         }
-        //
 
+        if (vh > 1080) {
+            vh = 1080;
+        }
 
-        const logoTargetWidth = Math.min(contentMaxWidth, contentMaxHeight) > 600
-            ? 600
-            : Math.min(contentMaxWidth, contentMaxHeight);
-        // console.log(`logoTargetWidth: ${logoTargetWidth}`);
-
-        videoEl.style.width = `${logoTargetWidth}px`;
+        main.el.style.setProperty("--vh", `${vh}px`);
     };
 
 
@@ -195,22 +147,26 @@ import stylesheet from "../scss/style.scss";
     let video = {};
 
     video.init = function() {
-        const videoEls = document.querySelectorAll(".video");
+        console.log("In video.init().");
 
-        if (videoEls.length === 0)
+        if (video.els.length === 0) {
+            console.log("No <video>s found on this page. Exiting function!");
+
             return;
+        }
 
-        videoEls.forEach((videoEl) => {
-            if (!videoEl.hasAttribute("autoplay")) {
+        video.els.forEach((videoEl) => {
+            if (!videoEl.hasAttribute("autoplay"))
                 return;
-            }
 
             video.removeControls(videoEl);
         });
     };
 
+    video.els = document.querySelectorAll("video");
+
     video.removeControls = function(targetVideo) {
-        // console.log("In video.removeControls().");
+        console.log("In video.removeControls().");
 
         targetVideo.removeAttribute("controls");
     };
@@ -220,25 +176,29 @@ import stylesheet from "../scss/style.scss";
     let wpcf7 = {};
 
     wpcf7.init = function() {
-        const wpcf7Els = document.querySelectorAll(".wpcf7");
+        console.log("In wpcf7.init().");
 
-        if (wpcf7Els.length === 0)
+        if (wpcf7.els.length === 0) {
+            console.log("No WPCF7 elements found on this page. Exiting function!");
+
             return;
+        }
 
-        wpcf7Els.forEach((wpcf7El) => {
+        wpcf7.els.forEach((wpcf7El) => {
             wpcf7.changeAttributes(wpcf7El);
 
-            wpcf7.statusEl(wpcf7El);
+            wpcf7.createSubmitStatusEl(wpcf7El);
 
             const inputs = wpcf7El.querySelectorAll(".wpcf7-form .form__input");
 
             inputs.forEach((input) => {
                 if (
                     input.classList.contains("wpcf7-validates-as-required") &&
-                    // input.value isn't necessarily always empty on form initialization, Firefox for example retains <input> values when a page is refreshed.
+                    // input.value isn't necessarily always empty on form initialization,
+                    // Firefox for example retains <input> values when a page is refreshed.
                     input.value === ""
                 ) {
-                    wpcf7.setInvalidState(input);
+                    wpcf7.setStateInvalid(input);
                 }
 
                 input.addEventListener("input", function() {
@@ -248,39 +208,47 @@ import stylesheet from "../scss/style.scss";
         });
     };
 
+    wpcf7.els = document.querySelectorAll(".wpcf7");
+
     wpcf7.changeAttributes = function(wpcf7El) {
-        // console.log("In wpcf7.changeAttributes().");
+        console.log("In wpcf7.changeAttributes().");
 
         wpcf7El.classList.add("form");
 
-        if (document.body.classList.contains("page-template-tpl-landing")) {
-            if (spinningLogo.el) {
+        if (body.classList.contains("page-template-front-page")) {
+            if (wpcf7El.closest(".fp-content")) {
                 wpcf7El.classList.add("form--width-small");
                 wpcf7El.setAttribute("id", "form-mailing");
             }
         }
     };
 
-    wpcf7.statusEl = function(wpcf7El) {
-        // console.log("In wpcf7.statusEl().");
+    wpcf7.createSubmitStatusEl = function(wpcf7El) {
+        console.log("In wpcf7.createSubmitStatusEl().");
 
-        const wpcf7Form    = wpcf7El.querySelector(".wpcf7-form"),
-              submitButton = wpcf7Form.querySelector("[type='submit']"),
+        const wpcf7Form           = wpcf7El.querySelector(".wpcf7-form"),
               inlineSubmitWrapper = wpcf7Form.querySelector(".form__field--inline-send");
 
-        if (!inlineSubmitWrapper) {
+        if (!inlineSubmitWrapper)
             return;
-        }
 
         const inputWrapper = inlineSubmitWrapper.querySelector(".wpcf7-form-control-wrap"),
               input        = inputWrapper.querySelector("input");
 
-        let submitStatusEl = document.createElement("span");
+        const submitStatusEl = document.createElement("span");
         submitStatusEl.className = "wpcf7-submit-status";
 
         input.parentNode.insertBefore(submitStatusEl, input.nextElementSibling);
 
-        submitStatusEl = inputWrapper.querySelector(".wpcf7-submit-status");
+        wpcf7.setSubmitStatusEl(wpcf7El);
+    };
+
+    wpcf7.setSubmitStatusEl = function(wpcf7El) {
+        console.log("In wpcf7.setSubmitStatusEl().");
+
+        const wpcf7Form      = wpcf7El.querySelector(".wpcf7-form"),
+              submitButton   = wpcf7Form.querySelector("[type='submit']"),
+              submitStatusEl = wpcf7Form.querySelector(".wpcf7-submit-status");
 
         wpcf7El.addEventListener("wpcf7beforesubmit", function() {
             submitStatusEl.textContent = "Submitting...";
@@ -312,7 +280,7 @@ import stylesheet from "../scss/style.scss";
     };
 
     wpcf7.inputValidator = function(input) {
-        // console.log("In wpcf7.inputValidator().");
+        console.log("In wpcf7.inputValidator().");
 
         const type = input.getAttribute("type");
 
@@ -320,23 +288,14 @@ import stylesheet from "../scss/style.scss";
             (type === "email" && isValidEmail(input.value)) ||
             (type !== "email" && input.value !== "")
         ) {
-            wpcf7.unsetInvalidState(input);
+            wpcf7.setStateValid(input);
         } else {
-            wpcf7.setInvalidState(input);
+            wpcf7.setStateInvalid(input);
         }
     };
 
-    wpcf7.setInvalidState = function(input) {
-        // console.log("In wpcf7.setInvalidState().");
-
-        input.parentElement.classList.remove("is-valid");
-
-        input.setAttribute("aria-invalid", true);
-        input.parentElement.classList.add("is-invalid");
-    };
-
-    wpcf7.unsetInvalidState = function(input) {
-        // console.log("In wpcf7.unsetInvalidState().");
+    wpcf7.setStateValid = function(input) {
+        console.log("In wpcf7.setStateValid().");
 
         input.setAttribute("aria-invalid", false);
         input.parentElement.classList.remove("is-invalid");
@@ -344,43 +303,118 @@ import stylesheet from "../scss/style.scss";
         input.parentElement.classList.add("is-valid");
     };
 
+    wpcf7.setStateInvalid = function(input) {
+        console.log("In wpcf7.setStateInvalid().");
 
-    // Music overview - .box link tabindex
-    let tabindex = {};
+        input.parentElement.classList.remove("is-valid");
 
-    tabindex.init = function() {
-        const musicOverview = document.body.classList.contains("page-template-tpl-music-overview");
+        input.setAttribute("aria-invalid", true);
+        input.parentElement.classList.add("is-invalid");
+    };
 
-        if (!musicOverview)
+
+    // Front page - <video>
+    let fpContent = {};
+
+    fpContent.init = function() {
+        console.log("In fpContent.init().");
+
+        if (!fpContent.mediaEl) {
+            console.log("This is either not the front page, or it is but no <video> is present. Exiting function!");
+
             return;
+        }
 
-        tabindex.fixOrder();
+        if (!cssLoaded()) {
+            const timeout = 1000;
+
+            console.log(`CSS hasn't been loaded yet. Running function in ${timeout} ms!`);
+
+            setTimeout(fpContent.init, timeout);
+
+            return;
+        }
+
+        fpContent.sizeFixer();
 
         window.addEventListener("resize", debounce(function() {
-            tabindex.fixOrder();
+            fpContent.sizeFixer();
         }, 25));
     };
 
-    tabindex.links = document.querySelectorAll(".box .stretched-link");
+    fpContent.el = document.querySelector(".fp-content");
 
-    tabindex.fixOrder = function() {
-        if (aboveBreakpoint("md")) {
-            tabindex.links.forEach((link) => {
-                if (!link.hasAttribute("tabindex")) {
-                    const box      = link.closest(".box");
-                    const boxOrder = cssValue(box, "order");
+    fpContent.mediaEl = document.querySelector(".fp-content > .media");
 
-                    const targetTabindex = Number(boxOrder) + 1;
+    fpContent.sizeFixer = function() {
+        console.log("In fpContent.sizeFixer().");
 
-                    link.setAttribute("tabindex", targetTabindex);
-                }
+        const bodyFontSizeUl = cssUnitToNo(cssValue(body, "font-size"));
+        const fpCRowOuterHeightMp = cssUnitToNo(stylesheet.fpCRowOuterHeight);
+
+        const fpCRowOuterHeight = bodyFontSizeUl * fpCRowOuterHeightMp;
+        const fpContentElHeight = fpContent.el.getBoundingClientRect().height;
+
+        const mediaWidth = fpContent.mediaEl.getBoundingClientRect().width;
+        const mediaTargetHeight = fpContentElHeight - (fpCRowOuterHeight * 2);
+
+        if (mediaWidth > mediaTargetHeight) {
+            const rowHeights = `${fpCRowOuterHeight}px ${mediaTargetHeight}px ${fpCRowOuterHeight}px`;
+
+            fpContent.el.style.gridTemplateRows = rowHeights;
+        } else if (fpContent.el.style.gridTemplateRows !== "") {
+            fpContent.el.style.gridTemplateRows = "";
+        }
+    };
+
+
+    // .row--lg-direction-reverse
+    let reversedRow = {};
+
+    reversedRow.init = function() {
+        console.log("In reversedRow.init().");
+
+        if (reversedRow.els.length === 0) {
+            console.log("No .row--lg-direction-reverse found on this page. Exiting function!");
+
+            return;
+        }
+
+        reversedRow.els.forEach((rowEl) => {
+            const boxElsWithLinks = rowEl.querySelectorAll(".box a");
+
+            if (boxElsWithLinks.length === 0)
+                return;
+
+            const rowChildElArr = [...rowEl.children];
+
+            boxElsWithLinks.forEach((link) => {
+                reversedRow.fixBoxOrder(rowChildElArr, link);
+
+                window.addEventListener("resize", debounce(function() {
+                    reversedRow.fixBoxOrder(rowChildElArr, link);
+                }, 25));
             });
+        });
+    };
+
+    reversedRow.els = document.querySelectorAll(".row--lg-direction-reverse");
+
+    reversedRow.fixBoxOrder = function(rowChildElArr, link) {
+        console.log("In reversedRow.fixBoxOrder().");
+
+        if (aboveBreakpoint("lg")) {
+            if (!link.hasAttribute("tabindex")) {
+                const box = link.closest(".box");
+
+                const targetTabindex = rowChildElArr.length - rowChildElArr.indexOf(box);
+
+                link.setAttribute("tabindex", targetTabindex);
+            }
         } else {
-            tabindex.links.forEach((link) => {
-                if (link.hasAttribute("tabindex")) {
-                    link.removeAttribute("tabindex");
-                }
-            });
+            if (link.hasAttribute("tabindex")) {
+                link.removeAttribute("tabindex");
+            }
         }
     };
 })();

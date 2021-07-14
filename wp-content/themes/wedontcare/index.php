@@ -1,31 +1,39 @@
 <?php get_header(); ?>
 
-<div class="container container--flex container--center">
-    <div class="message" style="text-align: center;">
-        <?php
-            $previous_page = false;
+<div class="container">
+    <div class="row">
+        <div class="title title--margin text text--center">
+            <h1>An error occurred</h1>
+        </div>
+    </div>
 
-            if (isset($_SERVER["HTTP_REFERER"])) {
-                $previous_page = $_SERVER["HTTP_REFERER"];
-            }
+    <div class="row">
+        <div class="text text--center">
+            <?php
+                $previous_page = false;
 
-            $mailto_href = "mailto:webmaster@wedontcaregroup.com?subject=I landed on the index.php page on wedontca.re";
+                if (isset($_SERVER["HTTP_REFERER"])) {
+                    $previous_page = $_SERVER["HTTP_REFERER"];
+                }
 
-            if ($previous_page) {
-                $mailto_href .= "The page I visited before I arrived on index.php was" . $previous_page . ".";
-            }
-        ?>
+                $mailto_href = "mailto:webmaster@wedontcaregroup.com?subject=I landed on the index.php page on wedontca.re";
 
-        <p>
-            If you're seeing this page, something went wrong.
-        </p>
+                if ($previous_page) {
+                    $mailto_href .= "The page I visited before I arrived on index.php was" . $previous_page . ".";
+                }
+            ?>
 
-        <p>
-            <a href="<?php echo $mailto_href; ?>" target="_blank" rel="noopener">Please let me know about this error by clicking here.</a><br>
-            You don't have to compose a message yourself, just hit the send-button :).
-        </p>
+            <p>
+                If you're seeing this page, something went wrong.
+            </p>
 
-        <a href="<?php echo SITE_URL; ?>" target="_self">Return to the home page</a>
+            <p>
+                <a href="<?php echo $mailto_href; ?>" target="_blank" rel="noopener">Please let me know about this error by clicking here.</a><br>
+                You don't have to compose a message yourself - just hit the send-button.
+            </p>
+
+            <a href="<?php echo SITE_URL; ?>" target="_self">Return to the home page</a>
+        </div>
     </div>
 </div>
 
