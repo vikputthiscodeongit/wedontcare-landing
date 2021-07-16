@@ -5,13 +5,6 @@
         background-color: rgba(51, 48, 41, 0.5);
     }
 
-    .single-music & {
-        @include respond-below(lg) {
-            position: relative;
-            z-index: 1;
-        }
-    }
-
     &__top {
         padding: rem(24px) rem(32px);
 
@@ -65,9 +58,6 @@
     }
 
     &__logo {
-        position: relative;
-        z-index: 1;
-
         > img {
             max-width: rem(180px);
             max-height: rem(30px);
