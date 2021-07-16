@@ -29,9 +29,6 @@
     "webpack-cli": "^3.3.12"
   },
   "browserslist": [
-    ">= 0.5%",
-    "last 2 major versions",
-    "not dead",
-    "not Explorer <= 11"
+    "since 2018-08"
   ]
 }

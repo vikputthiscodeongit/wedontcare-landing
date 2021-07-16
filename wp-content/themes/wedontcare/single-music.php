@@ -26,7 +26,7 @@
             </div>
         </div>
 
-        <div class="box box--lg-5">
+        <div class="box box--lg-5 ms-stream">
             <div class="streaming">
                 <?php
                     // Logo

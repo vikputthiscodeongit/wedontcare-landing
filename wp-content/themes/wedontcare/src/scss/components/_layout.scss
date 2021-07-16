@@ -226,3 +226,12 @@ main {
         }
     }
 }
+
+.ms-stream {
+    position: relative;
+    z-index: 1;
+
+    @include only-ios {
+        transform: translate3d(0, 0, 0);
+    }
+}
