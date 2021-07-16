@@ -61,11 +61,11 @@ import stylesheet from "../scss/style.scss";
 
         wpcf7.init();
 
-        fpContent.init();
-
         reversedRow.init();
 
         background.init();
+
+        fpContent.init();
     });
 
 
@@ -315,6 +315,55 @@ import stylesheet from "../scss/style.scss";
     };
 
 
+    // .row--lg-direction-reverse
+    let reversedRow = {};
+
+    reversedRow.init = function() {
+        console.log("In reversedRow.init().");
+
+        if (reversedRow.els.length === 0) {
+            console.log("No .row--lg-direction-reverse found on this page. Exiting function!");
+
+            return;
+        }
+
+        reversedRow.els.forEach((rowEl) => {
+            const boxElsWithLinks = rowEl.querySelectorAll(".box a");
+
+            if (boxElsWithLinks.length === 0)
+                return;
+
+            const rowChildElArr = [...rowEl.children];
+
+            boxElsWithLinks.forEach((link) => {
+                reversedRow.fixBoxOrder(rowChildElArr, link);
+
+                window.addEventListener("resize", debounce(function() {
+                    reversedRow.fixBoxOrder(rowChildElArr, link);
+                }, 25));
+            });
+        });
+    };
+
+    reversedRow.els = document.querySelectorAll(".row--lg-direction-reverse");
+
+    reversedRow.fixBoxOrder = function(rowChildElArr, link) {
+        console.log("In reversedRow.fixBoxOrder().");
+
+        if (aboveBreakpoint("lg")) {
+            if (!link.hasAttribute("tabindex")) {
+                const box = link.closest(".box");
+
+                const targetTabindex = rowChildElArr.length - rowChildElArr.indexOf(box);
+
+                link.setAttribute("tabindex", targetTabindex);
+            }
+        } else {
+            if (link.hasAttribute("tabindex")) {
+                link.removeAttribute("tabindex");
+            }
+        }
+    };
 
 
     // Page background
@@ -395,57 +444,6 @@ import stylesheet from "../scss/style.scss";
             fpContent.el.style.gridTemplateRows = rowHeights;
         } else if (fpContent.el.style.gridTemplateRows !== "") {
             fpContent.el.style.gridTemplateRows = "";
-        }
-    };
-
-
-    // .row--lg-direction-reverse
-    let reversedRow = {};
-
-    reversedRow.init = function() {
-        console.log("In reversedRow.init().");
-
-        if (reversedRow.els.length === 0) {
-            console.log("No .row--lg-direction-reverse found on this page. Exiting function!");
-
-            return;
-        }
-
-        reversedRow.els.forEach((rowEl) => {
-            const boxElsWithLinks = rowEl.querySelectorAll(".box a");
-
-            if (boxElsWithLinks.length === 0)
-                return;
-
-            const rowChildElArr = [...rowEl.children];
-
-            boxElsWithLinks.forEach((link) => {
-                reversedRow.fixBoxOrder(rowChildElArr, link);
-
-                window.addEventListener("resize", debounce(function() {
-                    reversedRow.fixBoxOrder(rowChildElArr, link);
-                }, 25));
-            });
-        });
-    };
-
-    reversedRow.els = document.querySelectorAll(".row--lg-direction-reverse");
-
-    reversedRow.fixBoxOrder = function(rowChildElArr, link) {
-        console.log("In reversedRow.fixBoxOrder().");
-
-        if (aboveBreakpoint("lg")) {
-            if (!link.hasAttribute("tabindex")) {
-                const box = link.closest(".box");
-
-                const targetTabindex = rowChildElArr.length - rowChildElArr.indexOf(box);
-
-                link.setAttribute("tabindex", targetTabindex);
-            }
-        } else {
-            if (link.hasAttribute("tabindex")) {
-                link.removeAttribute("tabindex");
-            }
         }
     };
 })();
