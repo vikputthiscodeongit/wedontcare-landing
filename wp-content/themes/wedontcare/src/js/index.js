@@ -63,8 +63,6 @@ import stylesheet from "../scss/style.scss";
 
         reversedRow.init();
 
-        background.init();
-
         fpContent.init();
     });
 
@@ -363,33 +361,6 @@ import stylesheet from "../scss/style.scss";
                 link.removeAttribute("tabindex");
             }
         }
-    };
-
-
-    // Page background
-    let background = {};
-
-    background.init = function() {
-        console.log("In background.init().");
-
-        if (!background.el)
-            return;
-
-        background.sizeFixer();
-
-        window.addEventListener("resize", debounce(function() {
-            background.sizeFixer();
-        }, 25));
-    };
-
-    background.el = document.querySelector("main > .background");
-
-    background.sizeFixer = function() {
-        console.log("In background.sizeFixer().");
-
-        const vh = html.clientHeight;
-
-        background.el.style.height = `${vh}px`;
     };
 
 
