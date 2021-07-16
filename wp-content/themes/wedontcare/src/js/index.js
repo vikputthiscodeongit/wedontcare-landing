@@ -64,6 +64,8 @@ import stylesheet from "../scss/style.scss";
         fpContent.init();
 
         reversedRow.init();
+
+        background.init();
     });
 
 
@@ -310,6 +312,35 @@ import stylesheet from "../scss/style.scss";
 
         input.setAttribute("aria-invalid", true);
         input.parentElement.classList.add("is-invalid");
+    };
+
+
+
+
+    // Page background
+    let background = {};
+
+    background.init = function() {
+        console.log("In background.init().");
+
+        if (!background.el)
+            return;
+
+        background.sizeFixer();
+
+        window.addEventListener("resize", debounce(function() {
+            background.sizeFixer();
+        }, 25));
+    };
+
+    background.el = document.querySelector("main > .background");
+
+    background.sizeFixer = function() {
+        console.log("In background.sizeFixer().");
+
+        const vh = html.clientHeight;
+
+        background.el.style.height = `${vh}px`;
     };
 
 
