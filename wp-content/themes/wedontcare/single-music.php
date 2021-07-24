@@ -85,6 +85,10 @@
                                         $name = str_replace("_", " ", $service);
 
                                         switch ($name) {
+                                            case "pre save":
+                                                $name = "Pre-save";
+
+                                                break;
                                             case "soundcloud":
                                                 $name = "SoundCloud";
 
