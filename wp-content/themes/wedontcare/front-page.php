@@ -5,7 +5,7 @@
 ?>
 
 <div class="container container--rows-gap">
-    <div class="row row--top">
+    <div class="row row--no-box-gap row--top">
         <nav class="fp-nav fp-nav--top">
             <div class="fp-nav__item">
                 <a class="fp-nav__link text text--flashy" href="<?php echo SITE_URL; ?>/music/the-madness/" target="_self">The Madness!</a>
@@ -29,7 +29,7 @@
             }
         }
     ?>
-    <section class="row row--mid fp-content">
+    <section class="row row--no-box-gap row--mid fp-content">
         <?php
             $title_parent_class = "title";
             $title_class = "sr-only";
@@ -87,7 +87,7 @@
         <?php echo do_shortcode('[contact-form-7 id="102" title="Mailing sign up"]'); ?>
     </section>
 
-    <div class="row row--bottom">
+    <div class="row row--no-box-gap row--bottom">
         <nav class="fp-nav fp-nav--bottom">
             <div class="fp-nav__item">
                 <a class="fp-nav__link" href="<?php echo SITE_URL; ?>/social/" target="_self">Social</a>

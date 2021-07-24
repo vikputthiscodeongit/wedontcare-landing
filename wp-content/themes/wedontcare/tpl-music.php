@@ -11,12 +11,12 @@
         </div>
     </div>
 
-    <div class="row row--space-center row--lg-align-center row--lg-direction-reverse">
+    <div class="row row--below-lg-justify-center x-scroller x-scroller--lg">
         <?php
             $query_args = array(
                 "post_type" => "music",
                 "post_status" => "publish",
-                "posts_per_page" => 3
+                "posts_per_page" => -1
             );
 
             $the_query = new WP_Query($query_args);

@@ -32,7 +32,7 @@
 
                 if (!empty($social["service"])) {
                     ?>
-                    <div class="row row--space-center row--lg-align-center">
+                    <div class="row">
                         <ul class="socials" aria-label="Social media services">
                             <?php
                                 foreach ($social["service"] as $service) {
@@ -125,7 +125,7 @@
             wp_reset_postdata();
         } else {
             ?>
-            <div class="row row--space-center row--lg-align-center">
+            <div class="row">
                 <div class="text text--center">
                     <p>No social media services found.</p>
                 </div>

@@ -77,11 +77,21 @@ main {
     flex-shrink: 0;
     width: 100%;
 
-    &--space-center {
-        justify-content: center;
+    @include respond-above(lg) {
+        width: calc(100% + (2 * #{rem(30px)}));
+        margin-left: rem(-30px);
+        margin-right: rem(-30px);
+    }
 
-        @include respond-above(lg) {
-            justify-content: space-between;
+    @include respond-above(xl) {
+        width: calc(100% + (2 * #{rem(50px)}));
+        margin-left: rem(-50px);
+        margin-right: rem(-50px);
+    }
+
+    &--below-lg-justify-center {
+        @include respond-below(lg) {
+            justify-content: center;
         }
     }
 
@@ -89,19 +99,35 @@ main {
         align-items: flex-start;
     }
 
-    &--align-center {
-        align-items: center;
-    }
-
-    &--lg-align-center {
-        @include respond-above(lg) {
-            align-items: center;
-        }
+    &--direction-reverse {
+        flex-direction: row-reverse;
     }
 
     &--lg-direction-reverse {
         @include respond-above(lg) {
             flex-direction: row-reverse;
+        }
+    }
+
+    &--box-gap-compact {
+        @include respond-above(lg) {
+            width: calc(100% + (2 * #{rem(25px)}));
+            margin-left: rem(-25px);
+            margin-right: rem(-25px);
+        }
+
+        @include respond-above(xl) {
+            width: calc(100% + (2 * #{rem(40px)}));
+            margin-left: rem(-40px);
+            margin-right: rem(-40px);
+        }
+    }
+
+    &--no-box-gap {
+        @include respond-above(lg) {
+            width: 100%;
+            margin-left: 0;
+            margin-right: 0;
         }
     }
 
@@ -167,49 +193,70 @@ main {
 
 .box {
     flex-grow: 0;
+    flex-shrink: 0;
+    max-width: rem(360px);
+    margin-bottom: rem(50px);
 
-    @include respond-below(lg) {
-        max-width: rem(360px);
-        margin-bottom: rem(50px);
+    @include respond-above(md) {
+        max-width: rem(432px);
+    }
 
-        @include respond-above(md) {
-            max-width: rem(432px);
-        }
+    @include respond-above(lg) {
+        max-width: none;
+    }
 
-        &:last-child,
-        .row--box-gap-compact > &:last-child {
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    .row--box-gap-compact > & {
+        margin-bottom: rem(40px);
+
+        &:last-child {
             margin-bottom: 0;
-        }
-
-        .row--box-gap-compact > & {
-            margin-bottom: rem(40px);
         }
     }
 
-    $selectors: "&--lg-", ".row--box-gap-compact &--lg-";
+    .row--no-box-gap > & {
+        margin-bottom: 0;
 
-    @each $selector in $selectors {
-        $margin-lg: rem(40px);
-        $margin-xl: rem(60px);
+        @include respond-above(lg) {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
 
-        @if $selector != "&--lg-" {
-            $margin-lg: rem(25px);
-            $margin-xl: rem(40px);
+    &[class*=--lg] {
+        @include respond-above(lg) {
+            margin-bottom: 0;
+            padding-left: rem(30px);
+            padding-right: rem(30px);
         }
 
-        $box-widths: 4, 5, 7;
+        @include respond-above(xl) {
+            padding-left: rem(50px);
+            padding-right: rem(50px);
+        }
 
-        @each $box-width in $box-widths {
-            #{$selector}#{$box-width} {
-                $width: $box-width / 12 * 100%;
+        .row--box-gap-compact > & {
+            @include respond-above(lg) {
+                padding-left: rem(25px);
+                padding-right: rem(25px);
+            }
 
-                @include respond-above(lg) {
-                    width: calc(#{$width} - #{$margin-lg});
-                }
+            @include respond-above(xl) {
+                padding-left: rem(40px);
+                padding-right: rem(40px);
+            }
+        }
+    }
 
-                @include respond-above(xl) {
-                    width: calc(#{$width} - #{$margin-xl});
-                }
+    $box-widths: 4, 5, 7;
+
+    @each $box-width in $box-widths {
+        &--lg-#{$box-width} {
+            @include respond-above(lg) {
+                width: $box-width / 12 * 100%;
             }
         }
     }

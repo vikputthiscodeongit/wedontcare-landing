@@ -29,14 +29,17 @@ import stylesheet from "../scss/style.scss";
     }
 
     // Check if viewport is above given breakpoint
-    function aboveBreakpoint(breakpoint) {
-        const bp = `${breakpoint}Breakpoint`;
+    function aboveBreakpoint(bpName) {
+        if (!bpName)
+            return true;
 
-        if (typeof stylesheet[bp] === "undefined") {
+        const bp = stylesheet[`${bpName}Breakpoint`];
+
+        if (typeof bp === "undefined") {
             console.error("The given breakpoint either doesn't exist or hasn't been exported to JavaScript.");
         }
 
-        return window.matchMedia(`(min-width: ${stylesheet[bp]})`).matches;
+        return window.matchMedia(`(min-width: ${bp})`).matches;
     }
 
     // Valide an email address against the RFC 5322 specification. See also https://stackoverflow.com/a/201378/6396604 & https://emailregex.com/.
@@ -62,6 +65,8 @@ import stylesheet from "../scss/style.scss";
         wpcf7.init();
 
         reversedRow.init();
+
+        xScroller.init();
 
         fpContent.init();
     });
@@ -374,6 +379,60 @@ import stylesheet from "../scss/style.scss";
             if (link.hasAttribute("tabindex")) {
                 link.removeAttribute("tabindex");
             }
+        }
+    };
+
+
+    // Horizontal scroll container
+    // Based on https://stackoverflow.com/a/15343916/6396604.
+    let xScroller = {};
+
+    xScroller.init = function() {
+        console.log("In xScroller.init().");
+
+        if (xScroller.els.length === 0) {
+            console.log("Exiting function - no horizontal scrollers found on this page!");
+
+            return;
+        }
+
+        xScroller.els.forEach((scroller) => {
+            let fromBp = false;
+
+            const scrollerClasses = scroller.className.split(" ");
+
+            const bpRegEx = /x-scroller--([a-z]{2})/;
+
+            scrollerClasses.forEach((cls) => {
+                const match = cls.match(bpRegEx);
+
+                if (match !== null) {
+                    fromBp = match[1];
+                }
+            });
+
+            // All browsers but Gecko-based ones.
+            scroller.addEventListener("mousewheel", function(e) {
+                xScroller.scroll(e, scroller, fromBp);
+            });
+            // Gecko-based browsers.
+            scroller.addEventListener("DOMMouseScroll", function(e) {
+                xScroller.scroll(e, scroller, fromBp);
+            });
+        });
+    };
+
+    xScroller.els = document.querySelectorAll(".x-scroller");
+
+    xScroller.scroll = function(e, scroller, fromBp) {
+        console.log("In xScroller.scroll().");
+
+        if (aboveBreakpoint(fromBp)) {
+            e.preventDefault();
+
+            const delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+
+            scroller.scrollLeft -= (delta * 100);
         }
     };
 
