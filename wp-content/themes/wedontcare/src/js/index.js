@@ -42,7 +42,8 @@ import stylesheet from "../scss/style.scss";
         return window.matchMedia(`(min-width: ${bp})`).matches;
     }
 
-    // Valide an email address against the RFC 5322 specification. See also https://stackoverflow.com/a/201378/6396604 & https://emailregex.com/.
+    // Valide an email address against the RFC 5322 specification.
+    // See also https://stackoverflow.com/a/201378/6396604 & https://emailregex.com/.
     function isValidEmail(address) {
         const regEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i;
 
@@ -93,7 +94,7 @@ import stylesheet from "../scss/style.scss";
         console.log("In main.init().");
 
         if (!body.classList.contains("cover-fullvh")) {
-            console.log("<body> should NOT cover the entire viewport. Exiting function!");
+            console.log("Exiting function - <body> should NOT cover the entire viewport!");
 
             return;
         }
@@ -101,7 +102,7 @@ import stylesheet from "../scss/style.scss";
         if (!cssLoaded()) {
             const timeout = 1000;
 
-            console.log(`CSS hasn't been loaded yet. Running function in ${timeout} ms!`);
+            console.log(`CSS hasn't been loaded yet - running function in ${timeout} ms!`);
 
             setTimeout(main.init, timeout);
 
@@ -155,7 +156,7 @@ import stylesheet from "../scss/style.scss";
         console.log("In video.init().");
 
         if (video.els.length === 0) {
-            console.log("No <video>s found on this page. Exiting function!");
+            console.log("Exiting function - no <video>s found on this page!");
 
             return;
         }
@@ -184,7 +185,7 @@ import stylesheet from "../scss/style.scss";
         console.log("In wpcf7.init().");
 
         if (wpcf7.els.length === 0) {
-            console.log("No WPCF7 elements found on this page. Exiting function!");
+            console.log("Exiting function - no WPCF7 elements found on this page!");
 
             return;
         }
@@ -318,14 +319,14 @@ import stylesheet from "../scss/style.scss";
     };
 
 
-    // .row--lg-direction-reverse
+    // .row with content in reversed order.
     let reversedRow = {};
 
     reversedRow.init = function() {
         console.log("In reversedRow.init().");
 
         if (reversedRow.els.length === 0) {
-            console.log("No .row--lg-direction-reverse found on this page. Exiting function!");
+            console.log("Exiting function - no .row with to-be reversed content found on this page!");
 
             return;
         }
@@ -444,7 +445,7 @@ import stylesheet from "../scss/style.scss";
         console.log("In fpContent.init().");
 
         if (!fpContent.mediaEl) {
-            console.log("This is either not the front page, or it is but no <video> is present. Exiting function!");
+            console.log("Exiting function - this is either not the front page, or it is but no <video> is present!");
 
             return;
         }
@@ -452,7 +453,7 @@ import stylesheet from "../scss/style.scss";
         if (!cssLoaded()) {
             const timeout = 1000;
 
-            console.log(`CSS hasn't been loaded yet. Running function in ${timeout} ms!`);
+            console.log(`CSS hasn't been loaded yet - running function in ${timeout} ms!`);
 
             setTimeout(fpContent.init, timeout);
 

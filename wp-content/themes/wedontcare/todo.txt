@@ -1,0 +1,5 @@
+* .text--center is too broad (drop flex properties).
+
+* Use variables for .row & .box margins (?).
+
+* "Fix" WP_Query difference between tpl-shows.php & tpl-social.php.
