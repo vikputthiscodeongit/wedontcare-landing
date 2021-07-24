@@ -331,28 +331,42 @@ import stylesheet from "../scss/style.scss";
             if (boxElsWithLinks.length === 0)
                 return;
 
-            const rowChildElArr = [...rowEl.children];
+            const rowChildElsArr = [...rowEl.children];
+
+            let fromBp = false;
+
+            const rowClasses = rowEl.className.split(" ");
+
+            const bpRegEx = /row--([a-z]{2})-direction-reverse/;
+
+            rowClasses.forEach((cls) => {
+                const match = cls.match(bpRegEx);
+
+                if (match !== null) {
+                    fromBp = match[1];
+                }
+            });
 
             boxElsWithLinks.forEach((link) => {
-                reversedRow.fixBoxOrder(rowChildElArr, link);
+                reversedRow.fixBoxOrder(link, rowChildElsArr, fromBp);
 
                 window.addEventListener("resize", debounce(function() {
-                    reversedRow.fixBoxOrder(rowChildElArr, link);
+                    reversedRow.fixBoxOrder(link, rowChildElsArr, fromBp);
                 }, 25));
             });
         });
     };
 
-    reversedRow.els = document.querySelectorAll(".row--lg-direction-reverse");
+    reversedRow.els = document.querySelectorAll(".row[class*=direction-reverse]");
 
-    reversedRow.fixBoxOrder = function(rowChildElArr, link) {
+    reversedRow.fixBoxOrder = function(link, rowChildElsArr, fromBp) {
         console.log("In reversedRow.fixBoxOrder().");
 
-        if (aboveBreakpoint("lg")) {
+        if (aboveBreakpoint(fromBp)) {
             if (!link.hasAttribute("tabindex")) {
                 const box = link.closest(".box");
 
-                const targetTabindex = rowChildElArr.length - rowChildElArr.indexOf(box);
+                const targetTabindex = rowChildElsArr.length - rowChildElsArr.indexOf(box);
 
                 link.setAttribute("tabindex", targetTabindex);
             }
