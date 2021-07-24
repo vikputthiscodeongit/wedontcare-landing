@@ -15,7 +15,7 @@
         $query_args = array(
             "post_type" => "entity",
             "post_status" => "publish",
-            "posts_per_page" => 3,
+            "posts_per_page" => -1,
             "order" => "ASC"
         );
 
