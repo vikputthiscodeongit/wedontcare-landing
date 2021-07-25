@@ -61,10 +61,22 @@ main {
 }
 
 .container {
-    max-width: rem(1440px);
+    @include respond-above(lg) {
+        max-width: rem(1440px);
+    }
 
     &--align-center {
         align-content: center;
+    }
+
+    &--below-lg-max-width {
+        @include respond-below(lg) {
+            max-width: rem(360px);
+
+            @include respond-above(md) {
+                max-width: rem(432px);
+            }
+        }
     }
 
     main > & {
@@ -194,16 +206,7 @@ main {
 .box {
     flex-grow: 0;
     flex-shrink: 0;
-    max-width: rem(360px);
     margin-bottom: rem(50px);
-
-    @include respond-above(md) {
-        max-width: rem(432px);
-    }
-
-    @include respond-above(lg) {
-        max-width: none;
-    }
 
     &:last-child {
         margin-bottom: 0;

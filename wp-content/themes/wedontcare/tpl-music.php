@@ -4,7 +4,7 @@
     get_header();
 ?>
 
-<section class="container container--align-center">
+<section class="container container--align-center container--below-lg-max-width">
     <div class="row">
         <div class="title">
             <h1 class="sr-only"><?php the_title(); ?></h1>

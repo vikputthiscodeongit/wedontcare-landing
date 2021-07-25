@@ -4,7 +4,7 @@
     $attrs = get_field("music_attrs");
 ?>
 
-<div class="container">
+<div class="container container--below-lg-max-width">
     <div class="row row--align-start row--below-lg-justify-center row--box-gap-compact">
         <div class="box box--lg-7 ms-artwork">
             <?php

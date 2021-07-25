@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-<div class="container">
+<div class="container container--below-lg-max-width">
     <div class="row">
         <div class="title title--margin text text--center">
             <h1>An error occurred</h1>
