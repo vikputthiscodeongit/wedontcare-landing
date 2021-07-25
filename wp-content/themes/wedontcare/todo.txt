@@ -1,4 +1,3 @@
-* .text--center is too broad (drop flex properties).
 
 * Use variables for .row & .box margins (?).
 

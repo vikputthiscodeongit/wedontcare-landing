@@ -53,7 +53,7 @@
                     $link_class = "stretched-link";
 
                     if (empty($artwork)) {
-                        $link_class .= " title text text--center";
+                        $link_class .= " flex-center title text";
                     }
 
                     // var_dump($link_class);

@@ -17,7 +17,7 @@
                         echo $artwork;
                     } else {
                         ?>
-                        <div class="text text--center">
+                        <div class="flex-center text text--center">
                             <p>Artwork not available.</p>
                         </div>
                         <?php

@@ -83,7 +83,7 @@
                                     $link_class = "stretched-link";
 
                                     if (!$logo) {
-                                        $link_class .= " text text--center";
+                                        $link_class .= " flex-center text text--center";
                                     }
 
                                     // var_dump($link_class);
