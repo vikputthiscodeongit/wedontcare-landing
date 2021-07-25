@@ -1,4 +1,3 @@
+* Re-name (alias) lg to wide.
 
-* Use variables for .row & .box margins (?).
-
-* "Fix" WP_Query difference between tpl-shows.php & tpl-social.php.
+* Create variables for .row & .box margins (?).
