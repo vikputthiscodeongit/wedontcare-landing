@@ -64,102 +64,117 @@
                     </div>
                 </div>
 
-                <?php
-                    $services = get_field("music_streaming_services");
-                    // var_dump($services);
+                <div class="streaming__main">
+                    <?php
+                        $services = get_field("music_streaming_services");
+                    ?>
+                    <ul class="streams" aria-label="Streaming services">
+                        <?php
+                            $services_shown = false;
 
-                    if (!empty($services)) {
-                        ?>
-                        <div class="streaming__main">
-                            <ul class="services" aria-label="Streaming services">
-                                <?php
-                                    foreach ($services as $service => $url) {
-                                        // URL
-                                        if (empty($url))
-                                            continue;
+                            foreach ($services as $service => $url) {
+                                // URL
+                                if (empty($url))
+                                    continue;
 
-                                        // var_dump($url);
-
-
-                                        // Name
-                                        $name = str_replace("_", " ", $service);
-
-                                        switch ($name) {
-                                            case "pre save":
-                                                $name = "Pre-save";
-
-                                                break;
-                                            case "soundcloud":
-                                                $name = "SoundCloud";
-
-                                                break;
-                                            case "youtube":
-                                                $name = "YouTube";
-
-                                                break;
-                                            default:
-                                                $name = ucwords($name);
-                                        }
-
-                                        // var_dump($name);
+                                // var_dump($url);
 
 
-                                        // Logo
-                                        $logo = false;
+                                // Set "shown" variable
+                                $services_shown = true;
 
-                                        $base_dir  = trailingslashit(THEME_DIR_PATH);
-                                        $dir       = "dist/images/static/streaming/";
-                                        $file_name = str_replace("_", "-", $service);
-                                        $files     = glob($base_dir . $dir . $file_name . "*");
-                                        // var_dump($files);
 
-                                        if (count($files) > 0) {
-                                            if (count($files) === 1) {
-                                                $logo = get_theme_file_uri($dir . basename($files[0]));
-                                            } else {
-                                                $colors = ["color", "black", "white"];
+                                // Name
+                                $name = str_replace("_", " ", $service);
 
-                                                foreach ($colors as $color) {
-                                                    foreach ($files as $logo_version) {
-                                                        if ($logo)
-                                                            break;
+                                switch ($name) {
+                                    case "pre save":
+                                        $name = "Pre-save";
 
-                                                        if (strpos($logo_version, $color))
-                                                            $logo = get_theme_file_uri($dir . basename($logo_version));
-                                                    }
-                                                }
+                                        break;
+                                    case "soundcloud":
+                                        $name = "SoundCloud";
+
+                                        break;
+                                    case "youtube":
+                                        $name = "YouTube";
+
+                                        break;
+                                    default:
+                                        $name = ucwords($name);
+                                }
+
+                                // var_dump($name);
+
+
+                                // Logo
+                                $logo = false;
+
+                                $base_dir  = trailingslashit(THEME_DIR_PATH);
+                                $dir       = "dist/images/static/streaming/";
+                                $file_name = str_replace("_", "-", $service);
+                                $files     = glob($base_dir . $dir . $file_name . "*");
+                                // var_dump($files);
+
+                                if (count($files) > 0) {
+                                    if (count($files) === 1) {
+                                        $logo = get_theme_file_uri($dir . basename($files[0]));
+                                    } else {
+                                        $colors = ["color", "black", "white"];
+
+                                        foreach ($colors as $color) {
+                                            foreach ($files as $logo_version) {
+                                                if ($logo)
+                                                    break;
+
+                                                if (strpos($logo_version, $color))
+                                                    $logo = get_theme_file_uri($dir . basename($logo_version));
                                             }
                                         }
-
-                                        // var_dump($logo);
-                                        ?>
-                                        <li class="service">
-                                            <a class="service__link" href="<?php echo $url; ?>" target="_blank" rel="noopener">
-                                                <?php
-                                                    if ($logo) {
-                                                        ?>
-                                                        <span class="service__logo">
-                                                            <img src="<?php echo $logo; ?>" alt="<?php echo $name; ?>">
-                                                        </span>
-                                                        <?php
-                                                    } else {
-                                                        ?>
-                                                        <span class="service__name">
-                                                            <span><?php echo $name; ?></span>
-                                                        </span>
-                                                        <?php
-                                                    }
-                                                ?>
-                                            </a>
-                                        </li>
-                                        <?php
                                     }
+                                }
+
+                                // var_dump($logo);
+
+
+                                // Name - class
+                                $name_class = $logo ? "sr-only" : false;
+                                // var_dump($name_class);
                                 ?>
-                            </ul>
-                        </div>
-                        <?php
-                    }
-                ?>
+                                <li class="stream">
+                                    <a class="stream__item" href="<?php echo $url; ?>" target="_blank" rel="noopener">
+                                        <?php
+                                            if ($logo) {
+                                                ?>
+                                                <span class="stream__logo">
+                                                    <img src="<?php echo $logo; ?>" alt="<?php echo $name; ?> logo">
+                                                </span>
+                                                <?php
+                                            }
+                                        ?>
+
+                                        <span class="stream__name">
+                                            <span class="<?php echo $name_class; ?>"><?php echo $name; ?></span>
+                                        </span>
+                                    </a>
+                                </li>
+                                <?php
+                            }
+
+                            if (!$services_shown) {
+                                ?>
+                                <li class="stream">
+                                    <span class="stream__item">
+                                        <span class="stream__text">
+                                            <span>No streaming services found.</span>
+                                        </span>
+                                    </span>
+                                </li>
+                                <?php
+                            }
+                        ?>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

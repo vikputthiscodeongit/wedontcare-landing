@@ -35,6 +35,8 @@
                     <div class="row">
                         <ul class="socials" aria-label="Social media services">
                             <?php
+                                $social_shown = false;
+
                                 foreach ($social["service"] as $service) {
                                     // URL
                                     $url = $service["url"];
@@ -58,9 +60,13 @@
                                     }
 
                                     if (!$name)
-                                        return;
+                                        continue;
 
                                     // var_dump($name);
+
+
+                                    // Set "shown" variable
+                                    $social_shown = true;
 
 
                                     // Logo
@@ -79,39 +85,36 @@
                                     // var_dump($logo);
 
 
-                                    // Link
-                                    $link_class = "stretched-link";
-
-                                    if (!$logo) {
-                                        $link_class .= " flex-center text text--center";
-                                    }
-
-                                    // var_dump($link_class);
-
-
-                                    // Title
-                                    $name_class = "sr-only";
-
-                                    if (!$logo) {
-                                        $name_class = false;
-                                    }
-
+                                    // Name - class
+                                    $name_class = $logo ? "sr-only" : false;
                                     // var_dump($name_class);
                                     ?>
                                     <li class="social">
-                                        <div class="media" style="--aspect-ratio: 1 / 1">
+                                        <a class="social__item" href="<?php echo $url; ?>" target="_blank" rel="noopener">
                                             <?php
                                                 if ($logo) {
                                                     ?>
-                                                    <img src="<?php echo $logo; ?>" alt="<?php echo $name; ?>">
+                                                    <span class="social__logo media" style="--aspect-ratio: 1 / 1">
+                                                        <img src="<?php echo $logo; ?>" alt="<?php echo $name; ?> logo">
+                                                    </span>
                                                     <?php
                                                 }
                                             ?>
 
-                                            <a class="<?php echo $link_class; ?>" href="<?php echo $url; ?>" target="_blank" rel="noopener">
+                                            <span class="social__name">
                                                 <span class="<?php echo $name_class; ?>"><?php echo $name; ?></span>
-                                            </a>
-                                        </div>
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <?php
+                                }
+
+                                if (!$social_shown) {
+                                    ?>
+                                    <li class="social">
+                                        <span class="social__item">
+                                            <span class="social__text">No social media services found.</span>
+                                        </span>
                                     </li>
                                     <?php
                                 }
