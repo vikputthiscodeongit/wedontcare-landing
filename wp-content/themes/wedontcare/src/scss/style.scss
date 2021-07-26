@@ -3,18 +3,19 @@
 
 
 // Bootstrap
-// Functions, variables and mixins
+// Configuration
 @import "~bootstrap/scss/functions";
 @import "vars/bootstrap";
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/utilities";
 
-// Components
+// Layout & components
 // @import "~bootstrap/scss/root";
 @import "~bootstrap/scss/reboot";
 // @import "~bootstrap/scss/type";
 // @import "~bootstrap/scss/images";
-// @import "~bootstrap/scss/code";
+// @import "~bootstrap/scss/containers";
 // @import "~bootstrap/scss/grid";
 // @import "~bootstrap/scss/tables";
 // @import "~bootstrap/scss/forms";
@@ -22,18 +23,15 @@
 // @import "~bootstrap/scss/transitions";
 // @import "~bootstrap/scss/dropdown";
 // @import "~bootstrap/scss/button-group";
-// @import "~bootstrap/scss/input-group";
-// @import "~bootstrap/scss/custom-forms";
 // @import "~bootstrap/scss/nav";
 // @import "~bootstrap/scss/navbar";
 // @import "~bootstrap/scss/card";
+// @import "~bootstrap/scss/accordion";
 // @import "~bootstrap/scss/breadcrumb";
 // @import "~bootstrap/scss/pagination";
 // @import "~bootstrap/scss/badge";
-// @import "~bootstrap/scss/jumbotron";
 // @import "~bootstrap/scss/alert";
 // @import "~bootstrap/scss/progress";
-// @import "~bootstrap/scss/media";
 // @import "~bootstrap/scss/list-group";
 // @import "~bootstrap/scss/close";
 // @import "~bootstrap/scss/toasts";
@@ -42,28 +40,19 @@
 // @import "~bootstrap/scss/popover";
 // @import "~bootstrap/scss/carousel";
 // @import "~bootstrap/scss/spinners";
+// @import "~bootstrap/scss/offcanvas";
+
+// Helpers
+// @import "~bootstrap/scss/helpers/clearfix";
+// @import "~bootstrap/scss/helpers/colored-links";
+// @import "~bootstrap/scss/helpers/ratio";
+// @import "~bootstrap/scss/helpers/position";
+@import "~bootstrap/scss/helpers/visually-hidden";
+@import "~bootstrap/scss/helpers/stretched-link";
+// @import "~bootstrap/scss/helpers/text-truncation";
 
 // Utilities
-// @import "~bootstrap/scss/utilities/align";
-// @import "~bootstrap/scss/utilities/background";
-// @import "~bootstrap/scss/utilities/borders";
-// @import "~bootstrap/scss/utilities/clearfix";
-// @import "~bootstrap/scss/utilities/display";
-// @import "~bootstrap/scss/utilities/embed";
-// @import "~bootstrap/scss/utilities/flex";
-// @import "~bootstrap/scss/utilities/float";
-// @import "~bootstrap/scss/utilities/overflow";
-// @import "~bootstrap/scss/utilities/position";
-@import "~bootstrap/scss/utilities/screenreaders";
-// @import "~bootstrap/scss/utilities/shadows";
-// @import "~bootstrap/scss/utilities/sizing";
-@import "~bootstrap/scss/utilities/stretched-link";
-// @import "~bootstrap/scss/utilities/spacing";
-// @import "~bootstrap/scss/utilities/text";
-// @import "~bootstrap/scss/utilities/visibility";
-
-// Print
-// @import "~bootstrap/scss/print";
+// @import "~bootstrap/scss/utilities/api";
 
 
 // Project
@@ -75,11 +64,11 @@
 // Mixins
 @import "mixins/helpers/breakpoints";
 @import "mixins/helpers/browserhacks";
-@import "mixins/sizing";
+@import "mixins/aspect-ratio";
 
 
 // Utilities
-@import "utilities/size";
+@import "utilities/display";
 
 
 // Components
@@ -89,6 +78,7 @@
 @import "components/media";
 @import "components/background";
 @import "components/form";
+@import "components/xscroller";
 @import "components/nav";
 @import "components/streaming";
 @import "components/show";

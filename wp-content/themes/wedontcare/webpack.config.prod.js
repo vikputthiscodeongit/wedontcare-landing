@@ -1,10 +1,9 @@
 const path = require("path");
 const webpack = require("webpack");
 
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
     context: path.resolve(__dirname, "./src"),
@@ -14,9 +13,10 @@ module.exports = {
     },
 
     output: {
+        assetModuleFilename: "[path][name]_[contenthash][ext]",
+        clean: true,
         chunkFilename: "./js/bundle-[name]-[id].js",
-        filename: "./js/bundle-[name].js",
-        path: path.resolve(__dirname, "./dist")
+        filename: "./js/bundle-[name].js"
     },
 
     mode: "production",
@@ -24,25 +24,26 @@ module.exports = {
     devtool: "source-map",
 
     plugins: [
-        new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
             filename: "./css/style.css"
         }),
-        new CopyPlugin([
-            {
-                from: "*",
-                to: ""
-            },
-            {
-                from: "favicon",
-                to: "favicon"
-            },
-            {
-                from: "images",
-                to: "images",
-                ignore: ["compiled/**/*"]
-            }
-        ])
+        new CopyPlugin({
+            patterns: [
+                {
+                    from: "favicon",
+                    to: "favicon",
+                    noErrorOnMissing: true
+                },
+                {
+                    from: "images",
+                    to: "images",
+                    globOptions: {
+                        ignore: ["**/compiled/**/*"]
+                    },
+                    noErrorOnMissing: true
+                }
+            ]
+        })
     ],
 
     module: {
@@ -65,27 +66,11 @@ module.exports = {
             },
             {
                 test: /\.(gif|jpe?g|png|svg)$/i,
-                use: [
-                    {
-                        loader: "file-loader",
-                        options: {
-                            name: "[path][name]_[contenthash].[ext]",
-                            publicPath: "../"
-                        }
-                    }
-                ]
+                type: "asset/resource"
             },
             {
                 test: /\.(eot|otf|ttf|woff|woff2)$/i,
-                use: [
-                    {
-                        loader: "file-loader",
-                        options: {
-                            name: "[path][name]_[contenthash].[ext]",
-                            publicPath: "../"
-                        }
-                    }
-                ]
+                type: "asset/resource"
             }
         ]
     },

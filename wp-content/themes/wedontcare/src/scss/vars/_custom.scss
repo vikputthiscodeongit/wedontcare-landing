@@ -36,6 +36,15 @@ $fp-c-row-mid-md-height:     var(--vh) - (#{$main-md-p} * 2) - (#{$fp-c-row-oute
 $fp-c-row-mid-md-height-max: var(--vh) - (#{$main-md-p-max} * 2) - (#{$fp-c-row-outer-height} * 2) - (#{$c-row-gap} * 2);
 
 
+// Box
+$box-margin: rem(50px);
+$box-margin-cozy: rem(40px);
+$box-margin-lg: rem(30px);
+$box-margin-lg-cozy: rem(25px);
+$box-margin-xl: rem(50px);
+$box-margin-xl-cozy: rem(40px);
+
+
 // Variable export to JavaScript
 :export {
     fpCRowOuterHeight: $fp-c-row-outer-height;

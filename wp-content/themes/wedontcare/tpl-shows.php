@@ -45,9 +45,11 @@
                         if ($date_current > $date_hidden)
                             continue;
 
-                        $shows_shown = true;
-
                         $date_pretty = date("d M", $date_show);
+
+
+                        // Set "shown" variable
+                        $shows_shown = true;
 
 
                         // Tag
@@ -61,9 +63,15 @@
                         ?>
                         <li class="show">
                             <<?php echo $tag_open; ?>>
-                                <time datetime="<?php echo $date_show; ?>"><?php echo $date_pretty; ?></time>
+                                <span class="show__date">
+                                    <time datetime="<?php echo $date_show; ?>"><?php echo $date_pretty; ?></time>
+                                </span>
+
                                 <span class="seperator"> - </span>
-                                <span><?php echo $attrs["venue"]; ?></span>
+
+                                <span class="show__venue">
+                                    <span><?php echo $attrs["venue"]; ?></span>
+                                </span>
                             </<?php echo $tag_close; ?>>
                         </li>
                         <?php
@@ -75,7 +83,9 @@
                     ?>
                     <li class="show">
                         <span class="show__item">
-                            <span>TBA</span>
+                            <span class="show__text">
+                                <span>TBA</span>
+                            </span>
                         </span>
                     </li>
                     <?php

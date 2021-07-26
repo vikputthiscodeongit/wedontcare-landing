@@ -29,17 +29,25 @@ import stylesheet from "../scss/style.scss";
     }
 
     // Check if viewport is above given breakpoint
-    function aboveBreakpoint(breakpoint) {
-        const bp = `${breakpoint}Breakpoint`;
+    function aboveBreakpoint(bpName) {
+        if (!bpName)
+            return true;
 
-        if (typeof stylesheet[bp] === "undefined") {
+        if (bpName === "wide") {
+            bpName = "lg";
+        }
+
+        const bp = stylesheet[`${bpName}Breakpoint`];
+
+        if (typeof bp === "undefined") {
             console.error("The given breakpoint either doesn't exist or hasn't been exported to JavaScript.");
         }
 
-        return window.matchMedia(`(min-width: ${stylesheet[bp]})`).matches;
+        return window.matchMedia(`(min-width: ${bp})`).matches;
     }
 
-    // Valide an email address against the RFC 5322 specification. See also https://stackoverflow.com/a/201378/6396604 & https://emailregex.com/.
+    // Valide an email address against the RFC 5322 specification.
+    // See also https://stackoverflow.com/a/201378/6396604 & https://emailregex.com/.
     function isValidEmail(address) {
         const regEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i;
 
@@ -62,6 +70,8 @@ import stylesheet from "../scss/style.scss";
         wpcf7.init();
 
         reversedRow.init();
+
+        xScroller.init();
 
         fpContent.init();
     });
@@ -88,7 +98,7 @@ import stylesheet from "../scss/style.scss";
         console.log("In main.init().");
 
         if (!body.classList.contains("cover-fullvh")) {
-            console.log("<body> should NOT cover the entire viewport. Exiting function!");
+            console.log("Exiting function - <body> should NOT cover the entire viewport!");
 
             return;
         }
@@ -96,7 +106,7 @@ import stylesheet from "../scss/style.scss";
         if (!cssLoaded()) {
             const timeout = 1000;
 
-            console.log(`CSS hasn't been loaded yet. Running function in ${timeout} ms!`);
+            console.log(`CSS hasn't been loaded yet - running function in ${timeout} ms!`);
 
             setTimeout(main.init, timeout);
 
@@ -150,7 +160,7 @@ import stylesheet from "../scss/style.scss";
         console.log("In video.init().");
 
         if (video.els.length === 0) {
-            console.log("No <video>s found on this page. Exiting function!");
+            console.log("Exiting function - no <video>s found on this page!");
 
             return;
         }
@@ -179,7 +189,7 @@ import stylesheet from "../scss/style.scss";
         console.log("In wpcf7.init().");
 
         if (wpcf7.els.length === 0) {
-            console.log("No WPCF7 elements found on this page. Exiting function!");
+            console.log("Exiting function - no WPCF7 elements found on this page!");
 
             return;
         }
@@ -313,14 +323,14 @@ import stylesheet from "../scss/style.scss";
     };
 
 
-    // .row--lg-direction-reverse
+    // .row with content in reversed order.
     let reversedRow = {};
 
     reversedRow.init = function() {
         console.log("In reversedRow.init().");
 
         if (reversedRow.els.length === 0) {
-            console.log("No .row--lg-direction-reverse found on this page. Exiting function!");
+            console.log("Exiting function - no .row with to-be reversed content found on this page!");
 
             return;
         }
@@ -331,28 +341,42 @@ import stylesheet from "../scss/style.scss";
             if (boxElsWithLinks.length === 0)
                 return;
 
-            const rowChildElArr = [...rowEl.children];
+            const rowChildElsArr = [...rowEl.children];
+
+            let fromBp = false;
+
+            const rowClasses = rowEl.className.split(" ");
+
+            const bpRegEx = /row--(md|lg|wide)-direction-reverse/;
+
+            rowClasses.forEach((cls) => {
+                const match = cls.match(bpRegEx);
+
+                if (match !== null) {
+                    fromBp = match[1];
+                }
+            });
 
             boxElsWithLinks.forEach((link) => {
-                reversedRow.fixBoxOrder(rowChildElArr, link);
+                reversedRow.fixBoxOrder(link, rowChildElsArr, fromBp);
 
                 window.addEventListener("resize", debounce(function() {
-                    reversedRow.fixBoxOrder(rowChildElArr, link);
+                    reversedRow.fixBoxOrder(link, rowChildElsArr, fromBp);
                 }, 25));
             });
         });
     };
 
-    reversedRow.els = document.querySelectorAll(".row--lg-direction-reverse");
+    reversedRow.els = document.querySelectorAll(".row[class*=direction-reverse]");
 
-    reversedRow.fixBoxOrder = function(rowChildElArr, link) {
+    reversedRow.fixBoxOrder = function(link, rowChildElsArr, fromBp) {
         console.log("In reversedRow.fixBoxOrder().");
 
-        if (aboveBreakpoint("lg")) {
+        if (aboveBreakpoint(fromBp)) {
             if (!link.hasAttribute("tabindex")) {
                 const box = link.closest(".box");
 
-                const targetTabindex = rowChildElArr.length - rowChildElArr.indexOf(box);
+                const targetTabindex = rowChildElsArr.length - rowChildElsArr.indexOf(box);
 
                 link.setAttribute("tabindex", targetTabindex);
             }
@@ -364,6 +388,60 @@ import stylesheet from "../scss/style.scss";
     };
 
 
+    // Horizontal scroll container
+    // Based on https://stackoverflow.com/a/15343916/6396604.
+    let xScroller = {};
+
+    xScroller.init = function() {
+        console.log("In xScroller.init().");
+
+        if (xScroller.els.length === 0) {
+            console.log("Exiting function - no horizontal scrollers found on this page!");
+
+            return;
+        }
+
+        xScroller.els.forEach((scroller) => {
+            let fromBp = false;
+
+            const scrollerClasses = scroller.className.split(" ");
+
+            const bpRegEx = /x-scroller--(md|lg|wide)/;
+
+            scrollerClasses.forEach((cls) => {
+                const match = cls.match(bpRegEx);
+
+                if (match !== null) {
+                    fromBp = match[1];
+                }
+            });
+
+            // All browsers but Gecko-based ones.
+            scroller.addEventListener("mousewheel", function(e) {
+                xScroller.scroll(e, scroller, fromBp);
+            });
+            // Gecko-based browsers.
+            scroller.addEventListener("DOMMouseScroll", function(e) {
+                xScroller.scroll(e, scroller, fromBp);
+            });
+        });
+    };
+
+    xScroller.els = document.querySelectorAll(".x-scroller");
+
+    xScroller.scroll = function(e, scroller, fromBp) {
+        console.log("In xScroller.scroll().");
+
+        if (aboveBreakpoint(fromBp)) {
+            e.preventDefault();
+
+            const delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+
+            scroller.scrollLeft -= (delta * 100);
+        }
+    };
+
+
     // Front page - <video>
     let fpContent = {};
 
@@ -371,7 +449,7 @@ import stylesheet from "../scss/style.scss";
         console.log("In fpContent.init().");
 
         if (!fpContent.mediaEl) {
-            console.log("This is either not the front page, or it is but no <video> is present. Exiting function!");
+            console.log("Exiting function - this is either not the front page, or it is but no <video> is present!");
 
             return;
         }
@@ -379,7 +457,7 @@ import stylesheet from "../scss/style.scss";
         if (!cssLoaded()) {
             const timeout = 1000;
 
-            console.log(`CSS hasn't been loaded yet. Running function in ${timeout} ms!`);
+            console.log(`CSS hasn't been loaded yet - running function in ${timeout} ms!`);
 
             setTimeout(fpContent.init, timeout);
 

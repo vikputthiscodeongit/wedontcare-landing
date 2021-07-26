@@ -1,13 +1,13 @@
 <?php get_header(); ?>
 
-<div class="container">
+<div class="container container--below-wide-max-width">
     <div class="row">
         <div class="title title--margin text text--center">
             <h1>An error occurred</h1>
         </div>
     </div>
 
-    <div class="row">
+    <div class="row row--below-wide-justify-center">
         <div class="text text--center">
             <?php
                 $previous_page = false;
@@ -16,7 +16,7 @@
                     $previous_page = $_SERVER["HTTP_REFERER"];
                 }
 
-                $mailto_href = "mailto:webmaster@wedontcaregroup.com?subject=I landed on the index.php page on wedontca.re";
+                $mailto_href = "mailto:webmaster@wedontca.re?subject=I landed on the index.php page on wedontca.re";
 
                 if ($previous_page) {
                     $mailto_href .= "The page I visited before I arrived on index.php was" . $previous_page . ".";
@@ -29,7 +29,7 @@
 
             <p>
                 <a href="<?php echo $mailto_href; ?>" target="_blank" rel="noopener">Please let me know about this error by clicking here.</a><br>
-                You don't have to compose a message yourself - just hit the send-button.
+                (You don't have to compose a message yourself - just hit the send-button.)
             </p>
 
             <a href="<?php echo SITE_URL; ?>" target="_self">Return to the home page</a>

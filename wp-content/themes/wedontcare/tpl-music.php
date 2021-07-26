@@ -4,19 +4,19 @@
     get_header();
 ?>
 
-<section class="container container--align-center">
+<section class="container container--align-center container--below-wide-max-width">
     <div class="row">
         <div class="title">
-            <h1 class="sr-only"><?php the_title(); ?></h1>
+            <h1 class="visually-hidden"><?php the_title(); ?></h1>
         </div>
     </div>
 
-    <div class="row row--space-center row--lg-align-center row--lg-direction-reverse">
+    <div class="row row--below-wide-justify-center x-scroller x-scroller--wide">
         <?php
             $query_args = array(
                 "post_type" => "music",
                 "post_status" => "publish",
-                "posts_per_page" => 3
+                "posts_per_page" => -1
             );
 
             $the_query = new WP_Query($query_args);
@@ -30,7 +30,7 @@
 
 
                     // Box
-                    $box_class = "box box--lg-4";
+                    $box_class = "box box--wide-4";
 
                     $id = $attrs["id"];
 
@@ -53,14 +53,14 @@
                     $link_class = "stretched-link";
 
                     if (empty($artwork)) {
-                        $link_class .= " title text text--center";
+                        $link_class .= " flex-center title text";
                     }
 
                     // var_dump($link_class);
 
 
                     // Title
-                    $title_class = "sr-only";
+                    $title_class = "visually-hidden";
 
                     if (empty($artwork)) {
                         $title_class = false;
