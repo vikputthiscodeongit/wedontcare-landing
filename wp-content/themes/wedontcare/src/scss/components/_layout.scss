@@ -90,15 +90,15 @@ main {
     width: 100%;
 
     @include respond-above(lg) {
-        width: calc(100% + (2 * #{rem(30px)}));
-        margin-left: rem(-30px);
-        margin-right: rem(-30px);
+        width: calc(100% + (2 * #{$box-margin-lg}));
+        margin-left: -1 * $box-margin-lg;
+        margin-right: -1 * $box-margin-lg;
     }
 
     @include respond-above(xl) {
-        width: calc(100% + (2 * #{rem(50px)}));
-        margin-left: rem(-50px);
-        margin-right: rem(-50px);
+        width: calc(100% + (2 * #{$box-margin-xl}));
+        margin-left: -1 * $box-margin-xl;
+        margin-right: -1 * $box-margin-xl;
     }
 
     &--below-wide-justify-center {
@@ -123,15 +123,15 @@ main {
 
     &--box-gap-compact {
         @include respond-above(lg) {
-            width: calc(100% + (2 * #{rem(25px)}));
-            margin-left: rem(-25px);
-            margin-right: rem(-25px);
+            width: calc(100% + (2 * #{$box-margin-lg-cozy}));
+            margin-left: -1 * $box-margin-lg-cozy;
+            margin-right: -1 * $box-margin-lg-cozy;
         }
 
         @include respond-above(xl) {
-            width: calc(100% + (2 * #{rem(40px)}));
-            margin-left: rem(-40px);
-            margin-right: rem(-40px);
+            width: calc(100% + (2 * #{$box-margin-xl-cozy}));
+            margin-left: -1 * $box-margin-xl-cozy;
+            margin-right: -1 * $box-margin-xl-cozy;
         }
     }
 
@@ -206,14 +206,14 @@ main {
 .box {
     flex-grow: 0;
     flex-shrink: 0;
-    margin-bottom: rem(50px);
+    margin-bottom: $box-margin;
 
     &:last-child {
         margin-bottom: 0;
     }
 
     .row--box-gap-compact > & {
-        margin-bottom: rem(40px);
+        margin-bottom: $box-margin-cozy;
 
         &:last-child {
             margin-bottom: 0;
@@ -232,24 +232,24 @@ main {
     &[class*=--wide] {
         @include respond-above(lg) {
             margin-bottom: 0;
-            padding-left: rem(30px);
-            padding-right: rem(30px);
+            padding-left: $box-margin-lg;
+            padding-right: $box-margin-lg;
         }
 
         @include respond-above(xl) {
-            padding-left: rem(50px);
-            padding-right: rem(50px);
+            padding-left: $box-margin-xl;
+            padding-right: $box-margin-xl;
         }
 
         .row--box-gap-compact > & {
             @include respond-above(lg) {
-                padding-left: rem(25px);
-                padding-right: rem(25px);
+                padding-left: $box-margin-lg-cozy;
+                padding-right: $box-margin-lg-cozy;
             }
 
             @include respond-above(xl) {
-                padding-left: rem(40px);
-                padding-right: rem(40px);
+                padding-left: $box-margin-xl-cozy;
+                padding-right: $box-margin-xl-cozy;
             }
         }
     }
