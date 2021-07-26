@@ -7,7 +7,7 @@
 <section class="container container--align-center container--below-wide-max-width">
     <div class="row">
         <div class="title">
-            <h1 class="sr-only"><?php the_title(); ?></h1>
+            <h1 class="visually-hidden"><?php the_title(); ?></h1>
         </div>
     </div>
 
@@ -60,7 +60,7 @@
 
 
                     // Title
-                    $title_class = "sr-only";
+                    $title_class = "visually-hidden";
 
                     if (empty($artwork)) {
                         $title_class = false;

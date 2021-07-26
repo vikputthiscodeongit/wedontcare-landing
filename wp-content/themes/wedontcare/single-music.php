@@ -41,7 +41,7 @@
 
                     // Title
                     $title_parent_class = "title";
-                    $title_class = "sr-only";
+                    $title_class = "visually-hidden";
 
                     if (empty($logo)) {
                         $title_parent_class .= " text text--center";
@@ -138,7 +138,7 @@
 
 
                                 // Name - class
-                                $name_class = $logo ? "sr-only" : false;
+                                $name_class = $logo ? "visually-hidden" : false;
                                 // var_dump($name_class);
                                 ?>
                                 <li class="stream">

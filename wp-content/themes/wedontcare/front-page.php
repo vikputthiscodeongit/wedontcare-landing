@@ -32,7 +32,7 @@
     <section class="row row--no-box-gap row--mid fp-content">
         <?php
             $title_parent_class = "title";
-            $title_class = "sr-only";
+            $title_class = "visually-hidden";
 
             if (!$video) {
                 $title_parent_class .= " title--margin text text--center is-visible";

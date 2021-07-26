@@ -11,13 +11,17 @@ $theme-colors: (
 );
 
 
+// Options
+$enable-rfs:                  false;
+
+
 // Body
 $body-bg:                   $primary;
 $body-color:                $secondary;
 
 
 // Links
-$link-color:                              theme-color("secondary");
+$link-color:                              $secondary;
 $link-decoration:                         transparent solid underline;
 $link-hover-color:                        $link-color;
 $link-hover-decoration:                   currentColor solid underline;
@@ -60,7 +64,7 @@ $font-weight-normal:          400 !default;
 $font-weight-base:            $font-weight-normal !default;
 $line-height-base:            1.5 !default;
 
-$h1-font-size:                $font-size-base;
+$h1-font-size:                rem(32px);
 
 $headings-margin-bottom:      0;
 $headings-font-family:        $font-family-base;

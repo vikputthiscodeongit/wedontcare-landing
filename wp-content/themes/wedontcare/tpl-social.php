@@ -7,7 +7,7 @@
 <div class="container container--align-center">
     <div class="row">
         <div class="title">
-            <h1 class="sr-only"><?php the_title(); ?></h1>
+            <h1 class="visually-hidden"><?php the_title(); ?></h1>
         </div>
     </div>
 
@@ -86,7 +86,7 @@
 
 
                                     // Name - class
-                                    $name_class = $logo ? "sr-only" : false;
+                                    $name_class = $logo ? "visually-hidden" : false;
                                     // var_dump($name_class);
                                     ?>
                                     <li class="social">
