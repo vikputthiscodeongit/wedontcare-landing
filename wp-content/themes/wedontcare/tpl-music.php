@@ -4,14 +4,14 @@
     get_header();
 ?>
 
-<section class="container container--align-center container--below-lg-max-width">
+<section class="container container--align-center container--below-wide-max-width">
     <div class="row">
         <div class="title">
             <h1 class="sr-only"><?php the_title(); ?></h1>
         </div>
     </div>
 
-    <div class="row row--below-lg-justify-center x-scroller x-scroller--lg">
+    <div class="row row--below-wide-justify-center x-scroller x-scroller--wide">
         <?php
             $query_args = array(
                 "post_type" => "music",
@@ -30,7 +30,7 @@
 
 
                     // Box
-                    $box_class = "box box--lg-4";
+                    $box_class = "box box--wide-4";
 
                     $id = $attrs["id"];
 

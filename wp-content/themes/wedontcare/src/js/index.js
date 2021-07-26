@@ -33,6 +33,10 @@ import stylesheet from "../scss/style.scss";
         if (!bpName)
             return true;
 
+        if (bpName === "wide") {
+            bpName = "lg";
+        }
+
         const bp = stylesheet[`${bpName}Breakpoint`];
 
         if (typeof bp === "undefined") {
@@ -343,7 +347,7 @@ import stylesheet from "../scss/style.scss";
 
             const rowClasses = rowEl.className.split(" ");
 
-            const bpRegEx = /row--([a-z]{2})-direction-reverse/;
+            const bpRegEx = /row--(md|lg|wide)-direction-reverse/;
 
             rowClasses.forEach((cls) => {
                 const match = cls.match(bpRegEx);
@@ -402,7 +406,7 @@ import stylesheet from "../scss/style.scss";
 
             const scrollerClasses = scroller.className.split(" ");
 
-            const bpRegEx = /x-scroller--([a-z]{2})/;
+            const bpRegEx = /x-scroller--(md|lg|wide)/;
 
             scrollerClasses.forEach((cls) => {
                 const match = cls.match(bpRegEx);

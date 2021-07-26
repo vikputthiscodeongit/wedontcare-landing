@@ -4,9 +4,9 @@
     $attrs = get_field("music_attrs");
 ?>
 
-<div class="container container--below-lg-max-width">
-    <div class="row row--align-start row--below-lg-justify-center row--box-gap-compact">
-        <div class="box box--lg-7 ms-artwork">
+<div class="container container--below-wide-max-width">
+    <div class="row row--align-start row--below-wide-justify-center row--box-gap-compact">
+        <div class="box box--wide-7 ms-artwork">
             <?php
                 $artwork = get_the_post_thumbnail($post->ID, "medium", array("loading" => false));
                 // var_dump($artwork);
@@ -26,7 +26,7 @@
             </div>
         </div>
 
-        <div class="box box--lg-5 ms-stream">
+        <div class="box box--wide-5 ms-stream">
             <div class="streaming">
                 <?php
                     // Logo

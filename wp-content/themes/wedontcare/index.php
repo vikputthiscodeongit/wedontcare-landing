@@ -1,13 +1,13 @@
 <?php get_header(); ?>
 
-<div class="container container--below-lg-max-width">
+<div class="container container--below-wide-max-width">
     <div class="row">
         <div class="title title--margin text text--center">
             <h1>An error occurred</h1>
         </div>
     </div>
 
-    <div class="row row--below-lg-justify-center">
+    <div class="row row--below-wide-justify-center">
         <div class="text text--center">
             <?php
                 $previous_page = false;

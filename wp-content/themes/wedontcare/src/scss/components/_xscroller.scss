@@ -22,11 +22,11 @@
     }
 
     &.row {
-        &:not(.x-scroller--lg) {
+        &:not(.x-scroller--wide) {
             flex-wrap: nowrap;
         }
 
-        &.x-scroller--lg {
+        &.x-scroller--wide {
             @include respond-above(lg) {
                 flex-wrap: nowrap;
             }

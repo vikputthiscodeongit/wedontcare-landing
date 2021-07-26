@@ -69,7 +69,7 @@ main {
         align-content: center;
     }
 
-    &--below-lg-max-width {
+    &--below-wide-max-width {
         @include respond-below(lg) {
             max-width: rem(360px);
 
@@ -101,7 +101,7 @@ main {
         margin-right: rem(-50px);
     }
 
-    &--below-lg-justify-center {
+    &--below-wide-justify-center {
         @include respond-below(lg) {
             justify-content: center;
         }
@@ -115,7 +115,7 @@ main {
         flex-direction: row-reverse;
     }
 
-    &--lg-direction-reverse {
+    &--wide-direction-reverse {
         @include respond-above(lg) {
             flex-direction: row-reverse;
         }
@@ -229,7 +229,7 @@ main {
         }
     }
 
-    &[class*=--lg] {
+    &[class*=--wide] {
         @include respond-above(lg) {
             margin-bottom: 0;
             padding-left: rem(30px);
@@ -257,7 +257,7 @@ main {
     $box-widths: 4, 5, 7;
 
     @each $box-width in $box-widths {
-        &--lg-#{$box-width} {
+        &--wide-#{$box-width} {
             @include respond-above(lg) {
                 width: $box-width / 12 * 100%;
             }
