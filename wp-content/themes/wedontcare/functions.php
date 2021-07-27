@@ -74,7 +74,6 @@
     // Add extra MIME types
     function extra_mime_types($mimes) {
         $mimes["svg"] = "image/svg";
-        $mimes["webp"] = "image/webp";
 
         return $mimes;
     }
