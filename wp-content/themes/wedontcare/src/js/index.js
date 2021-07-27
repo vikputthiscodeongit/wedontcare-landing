@@ -11,10 +11,9 @@ import stylesheet from "../scss/style.scss";
 
     // Get a CSS property value
     function cssValue(el, prop) {
-        const styles = window.getComputedStyle(el),
-              value  = styles.getPropertyValue(prop);
+        const elStyles = window.getComputedStyle(el);
 
-        return value;
+        return elStyles.getPropertyValue(prop);
     }
 
     // Convert CSS unit to a number
@@ -46,7 +45,8 @@ import stylesheet from "../scss/style.scss";
         return window.matchMedia(`(min-width: ${bp})`).matches;
     }
 
-    // Valide an email address against the RFC 5322 specification.
+    // Valide an email address
+    // Validation is done against the standard defined in the RFC 5322 specification.
     // See also https://stackoverflow.com/a/201378/6396604 & https://emailregex.com/.
     function isValidEmail(address) {
         const regEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i;
@@ -54,8 +54,11 @@ import stylesheet from "../scss/style.scss";
         return regEx.test(address);
     }
 
+
+    // Define globally used constants
     const html = document.documentElement,
           body = document.body;
+
 
     // Event handlers
     document.addEventListener("DOMContentLoaded", function() {
